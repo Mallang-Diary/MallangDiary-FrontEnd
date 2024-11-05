@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/initial_setting_page.dart';
+import 'package:mallang_project_v1/page_indicator.dart';
 import 'package:supabase/supabase.dart';
 
 void main() async{
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(supabase: supabase),
       routes: {
         '/initial_setting': (context) => InitialSettingPage(),
+        '/page_indicator': (context) => PageIndicator(),
       },
     );
   }

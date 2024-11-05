@@ -48,7 +48,7 @@ class InitialSettingPage extends StatelessWidget {
                 SizedBox(height: 40),
                 ElevatedButton(
                     onPressed: (){
-                      // 시작하기 버튼 클릭 시 이동할 페이지 설정
+                      Navigator.pushNamed(context, '/page_indicator');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
