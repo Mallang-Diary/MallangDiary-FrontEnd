@@ -9,11 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mallang_project_v1/main.dart';
+import 'package:supabase/supabase.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+
+    final supabase = SupabaseClient(
+        'https://ojrhvazskoihqvhjscev.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qcmh2YXpza29paHF2aGpzY2V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3Njk0MDQsImV4cCI6MjA0NjM0NTQwNH0.V2PynGINHY_yM-rqAmbvLLMoaFBfZay449luABbmkRA');
+
+    await tester.pumpWidget(MyApp(supabase: supabase));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

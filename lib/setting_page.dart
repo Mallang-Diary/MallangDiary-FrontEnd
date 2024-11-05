@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/page/initial_setting/nickname_page.dart';
 
-class InitialSettingPage extends StatelessWidget {
+
+class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -47,9 +48,23 @@ class InitialSettingPage extends StatelessWidget {
                 ),
                 SizedBox(height: 40),
                 ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushNamed(context, '/page_indicator');
-                    },
+                  onPressed: () {
+                    // NickNamePage로 이동하면서 onNickNameEntered 콜백을 전달
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NickNamePage(
+                          onNickNameEntered: (nickname) {
+                            // 입력된 닉네임을 처리하는 로직을 추가합니다.
+                            print('입력된 닉네임: $nickname');
+                            // 닉네임 입력 후 원하는 페이지로 이동하거나 상태를 업데이트합니다.
+                            // 예를 들어, Navigator.pushNamed(context, '/page_indicator');
+                            Navigator.pop(context); // 이전 페이지로 돌아가기
+                          },
+                        ),
+                      ),
+                    );
+                  },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                       padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),

@@ -31,24 +31,24 @@ class _PageIndicatorState extends State<_PageIndicator> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              children: [
-                Center(child: Text("Page 1")),
-                Center(child: Text("Page 2")),
-                Center(child: Text("Page 3")),
-              ],
-            ),
-          ),
           SmoothPageIndicator(
             controller: _pageController,
             count: 3,
             effect: WormEffect(
               dotHeight: 10,
               dotWidth: 10,
-              activeDotColor: Colors.blue,
+              activeDotColor: Colors.black,
               dotColor: Colors.grey,
+            ),
+          ),
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              children: [
+                Center(child: Text("Page 1")),
+                Center(child: Text("Page 2")),
+                //Center(child: Text("Page 3")),
+              ],
             ),
           ),
           SizedBox(height: 16),
