@@ -6,7 +6,7 @@ import 'package:mallang_project_v1/page_indicator.dart';
 import 'package:supabase/supabase.dart';
 
 void main() async{
-  // runApp 을 수행하기 전에 비동기 작업을 할 경우 추가해주는 코드
+  // runApp 을 수행하기 전에 비동기 작업을 할 경우 추가해 주는 코드
   WidgetsFlutterBinding.ensureInitialized();
 
   final supabase = SupabaseClient(

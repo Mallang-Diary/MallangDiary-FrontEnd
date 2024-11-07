@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   supabase: ^2.5.0
   smooth_page_indicator: ^1.2.0+3
+  supabase_flutter: ^2.8.0
 
 dev_dependencies:
   flutter_test:
