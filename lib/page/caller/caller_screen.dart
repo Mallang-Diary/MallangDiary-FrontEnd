@@ -156,9 +156,7 @@ class _CallerPage extends State<CallerPage> {
                 ),
                 SizedBox(height: 60),
                 ElevatedButton(
-                  //onPressed: start,  // 버튼이 눌렸을 때 실행할 함수
-
-                  onPressed: () {  },
+                  onPressed: _start,  // 버튼이 눌렸을 때 실행할 함수
                   child: Text("TEMP START"),  // 버튼에 표시될 텍스트
                 )
               ],
