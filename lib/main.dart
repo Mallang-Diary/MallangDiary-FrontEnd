@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/page/initial_setting/initial_setting_page.dart';
 import 'package:mallang_project_v1/setting_page.dart';
 import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page/initial_setting/nickname_page.dart';
@@ -31,9 +32,9 @@ class MyApp extends StatelessWidget {
       //home: CallerScreen(),
       home: MyHomePage(supabase: supabase),
       routes: {
-        '/initial_setting_origin': (context) => SettingPage(),
+        //'/initial_setting_origin': (context) => SettingPage(),
         '/page_indicator': (context) => PageIndicator(),
-        //'/initial_setting': (context) => NickNamePage(),
+        '/initial_setting': (context) => InitialSettingPage(),
       },
     );
   }
@@ -53,7 +54,8 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: (){
-            Navigator.pushNamed(context, '/initial_setting_origin');
+            //Navigator.pushNamed(context, '/initial_setting_origin');
+            Navigator.pushNamed(context, '/initial_setting');
           },
             child: Text('Go to Initial Setting Page')),
       ),

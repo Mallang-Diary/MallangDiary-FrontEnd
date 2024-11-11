@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/page/initial_setting/complete_page.dart';
 
 class CallSchedulePage extends StatefulWidget {
   final String nickname;
@@ -20,10 +21,6 @@ class _CallSchedulePageState extends State<CallSchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('일기 전화 일정 설정'),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Column(
@@ -76,24 +73,6 @@ class _CallSchedulePageState extends State<CallSchedulePage> {
               ],
             ),
             Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('나중에'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // 다음 단계로 이동
-                  },
-                  child: Text('다음으로'),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
           ],
         ),
       ),
