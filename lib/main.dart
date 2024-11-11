@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
         //'/initial_setting_origin': (context) => SettingPage(),
         '/page_indicator': (context) => PageIndicator(),
         '/initial_setting': (context) => InitialSettingPage(),
+        '/caller_screen': (context) => CallerPage(),
       },
     );
   }
@@ -54,8 +55,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: (){
-            //Navigator.pushNamed(context, '/initial_setting_origin');
-            Navigator.pushNamed(context, '/initial_setting');
+            Navigator.pushNamed(context, '/caller_screen');
           },
             child: Text('Go to Initial Setting Page')),
       ),

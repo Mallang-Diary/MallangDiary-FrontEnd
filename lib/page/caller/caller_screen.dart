@@ -1,292 +1,170 @@
-import 'dart:async';
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import '../../../constant/constant.dart';
+import 'package:flutter/services.dart';
 
-class CallerScreen extends StatelessWidget {
-  static const routeName = '/CallerScreen';
+class CallerPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map;
-
-    // args가 null일 경우의 처리
-    if (args == null || !(args is Map)) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Error')),
-        body: Center(child: const Text('No data available.')),
-      );
-    }
-
-    String name = args['name'];
-    return Material(
-      type: MaterialType.transparency,
-      child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.fromLTRB(35.0, 70.0, 35.0, 0.0),
-        child: Column(
-          children: [
-            CircleAvatar(
-              backgroundColor: const Color(0xFFFECE00),
-              radius: 40,
-              child: Text(
-                name[0],
-                style: kHeadingTextStyle.copyWith(
-                  fontSize: 45.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 5.0,
-            ), //CircleAvatar
-            Text(
-              args['name'],
-              style: kHeadingTextStyle.copyWith(
-                fontSize: 35,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 5.0,
-            ),
-            TickingTimer(),
-            const Expanded(
-              child: SizedBox(
-                height: 1.0,
-              ),
-            ),
-            Container(
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      const Icon(
-                        IconData(0xe3e5, fontFamily: 'MaterialIcons'),
-                        size: 45.0,
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "Mute",
-                        style: kLabelTextStyle.copyWith(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Expanded(
-                    child: SizedBox(
-                      width: 1.0,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      const Icon(
-                        IconData(0xe1ce, fontFamily: 'MaterialIcons'),
-                        size: 45.0,
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "Keypad",
-                        style: kLabelTextStyle.copyWith(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Expanded(
-                    child: SizedBox(
-                      width: 1.0,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      const Icon(
-                        IconData(0xe6c5, fontFamily: 'MaterialIcons'),
-                        size: 48.0,
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "Speaker",
-                        style: kLabelTextStyle.copyWith(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 60.0,
-            ),
-            Container(
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      const Icon(
-                        IconData(0xe04d, fontFamily: 'MaterialIcons'),
-                        size: 45.0,
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "Add Call",
-                        style: kLabelTextStyle.copyWith(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Expanded(
-                    child: SizedBox(
-                      width: 1.0,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      const Icon(
-                        IconData(0xe47d, fontFamily: 'MaterialIcons'),
-                        size: 50.0,
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "Hold",
-                        style: kLabelTextStyle.copyWith(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Expanded(
-                    child: SizedBox(
-                      width: 1.0,
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      const Icon(
-                        IconData(0xe503, fontFamily: 'MaterialIcons'),
-                        size: 50.0,
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Text(
-                        "Record",
-                        style: kLabelTextStyle.copyWith(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 60.0,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Icon(
-                IconData(0xe127, fontFamily: 'MaterialIcons'),
-                size: 30.0,
-              ),
-              style: ElevatedButton.styleFrom(
-                shape: const CircleBorder(),
-                padding: const EdgeInsets.all(24),
-                backgroundColor: Colors.red,
-              ),
-            ),
-            const SizedBox(
-              height: 100.0,
-            ),
-          ],
-        ),
-      ),
-    );
+  State<StatefulWidget> createState() {
+    return _CallerPage();  // 실제 UI를 그릴 _CallerPage로 이동
   }
 }
 
-class TickingTimer extends StatefulWidget {
-  @override
-  _TickingTimerState createState() => _TickingTimerState();
-}
+class _CallerPage extends State<CallerPage> {
+  late AudioPlayer audioPlayer;
+  Color _backgroundColor = Color(0xFF163345);
+  Random random = Random();
+  String _caller = "";
+  String areaCode = "310";
+  String prefix = "";
+  String lastFour = "";
+  List callerList = [
+    "Mom",
+    "Dog",
+    "Wife",
+    "Girlfriend",
+    "Husband",
+    "Boyfriend",
+    "OtherHusband",
+    "Garbage Man",
+    "Bobs Big Shake of Bananas",
+  ];
+  bool _ringing = false;
 
-class _TickingTimerState extends State<TickingTimer> {
-  int _intMin = 0;
-  int _intSec = 00;
-  String _seconds = "00";
-  String _minutes = "0";
-  late Timer _callTimer;
-
-  void _startTimer() {
-    _callTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_intSec < 9) {
-        setState(() {
-          _intSec++;
-          _seconds = "0$_intSec";
-        });
-      } else if (_intSec == 59) {
-        setState(() {
-          _intSec = 0;
-          _intMin++;
-          _seconds = "0$_intSec";
-          _minutes = "$_intMin";
-        });
-      } else {
-        setState(() {
-          _intSec++;
-          _seconds = "$_intSec";
-        });
-      }
-    });
-  }
 
   @override
   void initState() {
-    _startTimer();
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
   }
 
-  @override
-  void dispose() {
-    _callTimer.cancel();
-    super.dispose();
+  void _start() {
+    int callerIndex = random.nextInt(callerList.length); // 우리 것은 이 Random 을 사용할 필요가 없을 것같음
+    int pre = random.nextInt(899) + 100;
+    int lf = random.nextInt(8999) + 1000;
+    setState(() {
+      prefix = pre.toString();
+      lastFour = lf.toString();
+      _caller = callerList[callerIndex];
+
+    });
+    _ring();
+  }
+
+  void _ring() async {
+    // (1). 소스 코드
+    _ringing = true;
+    do {
+      await audioPlayer.play(AssetSource("sample_music.mp3"));
+      await Future.delayed(Duration(seconds: 3));
+    } while(_ringing);
+
+    // (2). play 에러난 부분 고치기 ( _ringing  하는 동안 반복 재생 )
+    // 그러면 몇번 음악이 울리고 멈출 것인지에 대한 정책도 반영되어야 함
+    /*_ringing = true;
+    await audioPlayer.play(AssetSource("sample_music.mp3"));
+    audioPlayer.onPlayerComplete.listen((event) async{
+      if ( _ringing ){
+        await Future.delayed(Duration(seconds: 3));
+        await audioPlayer.seek(Duration.zero); // 처음부터 재생
+        audioPlayer.resume(); // 재생
+      }
+    });*/
+
+  }
+
+  void _stopRing() {
+    audioPlayer?.stop();
+    _ringing = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "$_minutes:$_seconds",
-      style: const TextStyle(
-        fontSize: 20.0,
-        color: Colors.black,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,  // 디버그 배너 숨기기
+      theme: ThemeData(
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: Colors.white),  // 텍스트 색상 적용
+        primarySwatch: Colors.blue,  // 기본 테마 색상
+        visualDensity: VisualDensity.adaptivePlatformDensity,  // 화면 밀도에 맞게 적응
+      ),
+      home: Scaffold(
+        backgroundColor: _backgroundColor,
+        body: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Text(
+                  "CALLER",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 50),
+                ),
+                Text(
+                  "$areaCode-$prefix-$lastFour",
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height / 2.2),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        Icon(Icons.alarm, color: Colors.white, size: 30),
+                        Text("Remind Me"),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Icon(Icons.message, color: Colors.white, size: 30),
+                        Text("Message"),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      children: [
+                        GestureDetector(
+                          child: FloatingActionButton(
+                            child: Icon(Icons.call_end, size: 34),
+                            backgroundColor: Colors.red,
+                            onPressed: null,
+                          ),
+                        ),
+                        Text("Decline"),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: _stopRing,
+                          child: FloatingActionButton(
+                            child: Icon(Icons.phone, size: 34),
+                            backgroundColor: Colors.green,
+                            onPressed: null,
+                          ),
+                        ),
+                        Text("Accept"),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 60),
+                ElevatedButton(
+                  //onPressed: start,  // 버튼이 눌렸을 때 실행할 함수
+
+                  onPressed: () {  },
+                  child: Text("TEMP START"),  // 버튼에 표시될 텍스트
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
