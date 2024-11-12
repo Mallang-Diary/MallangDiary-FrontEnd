@@ -31,11 +31,13 @@ class _CallerPage extends State<CallerPage> {
     "Bobs Big Shake of Bananas",
   ];
   bool _ringing = false;
+  bool _startScreen = true;
 
 
   @override
   void initState() {
     super.initState();
+    audioPlayer = AudioPlayer();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
   }
@@ -48,6 +50,7 @@ class _CallerPage extends State<CallerPage> {
       prefix = pre.toString();
       lastFour = lf.toString();
       _caller = callerList[callerIndex];
+      _startScreen = false;
 
     });
     _ring();
@@ -57,7 +60,7 @@ class _CallerPage extends State<CallerPage> {
     // (1). 소스 코드
     _ringing = true;
     do {
-      await audioPlayer.play(AssetSource("sample_music.mp3"));
+      await audioPlayer.play(AssetSource("music/sample_music.mp3"));
       await Future.delayed(Duration(seconds: 3));
     } while(_ringing);
 
@@ -80,6 +83,14 @@ class _CallerPage extends State<CallerPage> {
     _ringing = false;
   }
 
+  void _reset() {
+    audioPlayer?.stop();
+    _ringing = false;
+    setState(() {
+      _startScreen = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -90,14 +101,14 @@ class _CallerPage extends State<CallerPage> {
         visualDensity: VisualDensity.adaptivePlatformDensity,  // 화면 밀도에 맞게 적응
       ),
       home: Scaffold(
-        backgroundColor: _backgroundColor,
+        backgroundColor: _startScreen ? Colors.black : _backgroundColor,
         body: Stack(
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 Text(
-                  "CALLER",
+                  _caller,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 50),
                 ),
@@ -130,7 +141,10 @@ class _CallerPage extends State<CallerPage> {
                     Column(
                       children: [
                         GestureDetector(
+                          onTap: _stopRing,
+                          onDoubleTap: _reset,
                           child: FloatingActionButton(
+                            heroTag: "decline",
                             child: Icon(Icons.call_end, size: 34),
                             backgroundColor: Colors.red,
                             onPressed: null,
@@ -142,8 +156,8 @@ class _CallerPage extends State<CallerPage> {
                     Column(
                       children: [
                         GestureDetector(
-                          onTap: _stopRing,
                           child: FloatingActionButton(
+                            heroTag: "accept",
                             child: Icon(Icons.phone, size: 34),
                             backgroundColor: Colors.green,
                             onPressed: null,
@@ -161,6 +175,24 @@ class _CallerPage extends State<CallerPage> {
                 )
               ],
             ),
+            if (_startScreen)
+              Column(
+                children: [
+                  Expanded(
+                      flex: 2,
+                      child: Container(color: Colors.black)
+                  ),
+                  Expanded(
+                      flex: 0,
+                      child: GestureDetector(
+                        onLongPress: _start,
+                        child: Container(
+                          width: double.infinity,
+                          height: 60,
+                          color: Colors.grey[900])
+                      ),
+                  ),
+              ])
           ],
         ),
       ),
