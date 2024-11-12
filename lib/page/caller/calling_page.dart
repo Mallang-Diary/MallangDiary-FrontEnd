@@ -52,7 +52,6 @@ class _CallingPage extends State<CallingPage> {
         visualDensity: VisualDensity.adaptivePlatformDensity,  // 화면 밀도에 맞게 적응
       ),
       home: Scaffold(
-        appBar: AppBar(title: Text(''), backgroundColor: Colors.black),
         body: Stack(
           children: [
             Column(
