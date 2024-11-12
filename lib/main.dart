@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/page/caller/calling_page.dart';
+import 'package:mallang_project_v1/page/diary_board/board1.dart';
+import 'package:mallang_project_v1/page/diary_board/board2.dart';
 import 'package:mallang_project_v1/page/initial_setting/initial_setting_page.dart';
 import 'package:mallang_project_v1/setting_page.dart';
 import 'package:mallang_project_v1/page/caller/caller_screen.dart';
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/initial_setting': (context) => InitialSettingPage(),
         '/caller_screen': (context) => CallerPage(),
         '/calling_page': (context) => CallingPage(),
+        '/board2_page': (context) => Board2Page(),
       },
     );
   }
@@ -57,7 +60,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: (){
-            Navigator.pushNamed(context, '/calling_page');
+            Navigator.pushNamed(context, '/board2_page');
           },
             child: Text('Go to Initial Setting Page')),
       ),
