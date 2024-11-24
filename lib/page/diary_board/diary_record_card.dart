@@ -13,6 +13,7 @@ class DiaryRecordCard extends StatelessWidget {
           "2024년 10월 8일 오늘",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        SizedBox(height: 16),
         Center(
             child: Column(children: [
           SizedBox(

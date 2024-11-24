@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_record_card.dart';
+import 'package:mallang_project_v1/page/diary_board/month_selector.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Board2Page extends StatelessWidget {
@@ -31,11 +32,13 @@ class Board2Page extends StatelessWidget {
             SizedBox(height: 16),
             DiaryRecordCard(),
             Divider(),
-            Text(
-              "2024년 10월",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                MonthSelector(),
+              ],
+            ),
             Expanded(
               child: ListView(
                 children: [
