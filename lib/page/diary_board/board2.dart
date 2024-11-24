@@ -1,5 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/page/diary_board/diary_record_card.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Board2Page extends StatelessWidget {
   @override
@@ -28,6 +29,7 @@ class Board2Page extends StatelessWidget {
               ],
             ),
             SizedBox(height: 16),
+            DiaryRecordCard(),
             Divider(),
             Text(
               "2024년 10월",
