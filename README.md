@@ -1,16 +1,70 @@
-# mallang_project_v1
+# 정리 내용
+### 2024.12.26 [금]
 
-mallang_project_v1
+0️⃣
 
-## Getting Started
+◾ 무료 음성 생성 / 다운로드 : https://elevenlabs.io/
+- 내 목소리 기반 생성 가능
+- 한국어 가능
 
-This project is a starting point for a Flutter application.
+<br/>
 
-A few resources to get you started if this is your first Flutter project:
+1️⃣ 페이지 개발
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+◾ 녹음 페이지 ( 질문 답변 음성 ) ( 3개 )
+- 질문 답변 음성
+- 초기 구성 : **혼자 음성으로 녹음**
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+✅ 녹음 파일로 저정 <br/>
+✅ AI 가 녹음 파일을 텍스트로 요약
+
+<br/>
+◾ 마이페이지 정의
+
+<br/>
+
+🔯 (1). 디자인 작업물 무엇으로 전달해주어야 하는지 ( 벡터 ) <br/>
+🔯 (2). 디자인이 나와야 개발 가능한 것인지 <br/>
+&nbsp; &nbsp; &nbsp; - 중간에 디자인 소스만 ㅁ바꿔치기 하는게 더 힘든 것인지 ( 디자인 테마 수정이 늦어질 것 같음 )
+
+<br/>
+
+2️⃣ 초기 목표 설정
+
+◾ 일주일 무료 체험 <br/>
+◾ 일주일 무료 체험 후 자동 결제 1달 단위
+
+✅ 브랜드 스토리
+- "매일 일기를 쓰고 싶지만, 글쓰기가 어렵게 느껴지는 당신을 위해 탄생한 **말랑 일기**"
+- 타이핑도, 손글씨도 필요 없어요, 그저 하루 동안 있었던 일을 **말로 들려주세요**.
+- 당신의 이야기에 귀 기울이는 AI 가 소중한 순간들을 깔끔하게 정리해드립니다
+- 말로 시작하는 쉽고 부드러운 기록 생활, **말랑 일기**와 함께라면 누구나 할 수 있어요
+- 글쓰기가 어려운 당신을 위해 말로 시작하는 쉬운 일기, 이야기를 들려주세요, 말랑 일기가 기록할게요
+
+<br/>
+◾ 간편함 ( Simplicity ) <br/>
+- 쉬운 사용법은 진입 장벽을 낮춤 <br/>
+◾ 자연스러움 ( Naturalness ) <br/>
+- 일상적인 대화처럼 편하게 기록 <br/>
+◾ 지속 가능성 ( Sustainability ) <br/>
+- 매일 매일 이어지는 기록 습관 <br/>
+
+<br/>
+
+🔯 간편함 + 자연스러움 = 지속 가능성 <br/>
+🔯 가벼움 / 가벼운 일기 / 가볍게 쓰는 일기
+
+<br/>
+
+3️⃣ 유료제 / 무료제 차이
+
+◾ 무료제 - 로컬 저장 <br/>
+◾ 유료제 - 클라우드 저장
+
+<br/>
+
+4️⃣ 비용 계산
+
+◾ AWS 비용
+- Whisper API 호출량이 좀 큰 변수, 전체 비용이 크게 다를 수 있음
+
