@@ -3,6 +3,7 @@ import 'package:mallang_project_v1/page/caller/calling_page.dart';
 import 'package:mallang_project_v1/page/diary_board/board1.dart';
 import 'package:mallang_project_v1/page/diary_board/board2.dart';
 import 'package:mallang_project_v1/page/initial_setting/initial_setting_page.dart';
+import 'package:mallang_project_v1/page/main_page/call_setting_page_ml03.dart';
 import 'package:mallang_project_v1/setting_page.dart';
 import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page/initial_setting/nickname_page.dart';
@@ -39,11 +40,13 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(supabase: supabase),
         routes: {
           //'/initial_setting_origin': (context) => SettingPage(),
+          '/call_setting_page_ml03': (context) => CallSettingsPage(),
           '/page_indicator': (context) => PageIndicator(),
           '/initial_setting': (context) => InitialSettingPage(),
           '/caller_screen': (context) => CallerPage(),
           '/calling_page': (context) => CallingPage(),
           '/board2_page': (context) => Board2Page(),
+          '/board1_page': (context) => Board1Page(),
         },
       ),
     );
@@ -64,7 +67,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/board2_page');
+              Navigator.pushNamed(context, '/call_setting_page_ml03');
             },
             child: Text('Go to Initial Setting Page')),
       ),
