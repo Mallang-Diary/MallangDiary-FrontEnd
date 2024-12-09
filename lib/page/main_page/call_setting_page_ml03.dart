@@ -162,3 +162,6 @@ class _CallSettingsPageState extends State<CallSettingsPage> {
     );
   }
 }
+
+// 추가 고려 사항
+// 1. 요일별로 알람 시간 설정을 가능하도록 개발해야 한다.

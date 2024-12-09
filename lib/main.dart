@@ -4,6 +4,7 @@ import 'package:mallang_project_v1/page/diary_board/board1.dart';
 import 'package:mallang_project_v1/page/diary_board/board2.dart';
 import 'package:mallang_project_v1/page/initial_setting/initial_setting_page.dart';
 import 'package:mallang_project_v1/page/main_page/call_setting_page_ml03.dart';
+import 'package:mallang_project_v1/page/main_page/mypage_ml04.dart';
 import 'package:mallang_project_v1/setting_page.dart';
 import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page/initial_setting/nickname_page.dart';
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
           '/calling_page': (context) => CallingPage(),
           '/board2_page': (context) => Board2Page(),
           '/board1_page': (context) => Board1Page(),
+          '/mypage_ml04': (context) => MyPage(),
         },
       ),
     );
@@ -67,7 +69,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/call_setting_page_ml03');
+              Navigator.pushNamed(context, '/mypage_ml04');
             },
             child: Text('Go to Initial Setting Page')),
       ),
