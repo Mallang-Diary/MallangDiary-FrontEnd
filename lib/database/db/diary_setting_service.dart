@@ -81,9 +81,29 @@ class DiarySettingService {
     return list;
   }
 
+  // DB Insert ( 삽입 )
   Future<void> insert(DiarySetting diarySetting) async {
     final db = await database;
     diarySetting.id = await db?.insert(table_name,diarySetting.toJson());
   }
-  // DB Insert ( 삽입 )
+
+  Future<void> update(DiarySetting diarySetting) async {
+    final db = await database;
+    await db?.update(
+      table_name,
+      diarySetting.toJson(),
+      where: "id = ?",
+      whereArgs: [diarySetting.id],
+    );
+
+    // DB delete
+    Future<void> delete(DiarySetting diarySetting) async {
+      final db = await database;
+      await db?.delete(
+        table_name,
+        where: "id = ?",
+        whereArgs: [diarySetting.id],
+      );
+    }
+  }
 }
