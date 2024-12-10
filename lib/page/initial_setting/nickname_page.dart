@@ -3,11 +3,33 @@ import 'package:flutter/services.dart';
 
 import 'callschedule_page.dart';
 
-class NickNamePage extends StatelessWidget {
+class NickNamePage extends StatefulWidget {
   final Function(String) onNickNameEntered;
-  final TextEditingController _nicknameController = TextEditingController();
 
   NickNamePage({required this.onNickNameEntered});
+
+  @override
+  _NickNamePageState createState() => _NickNamePageState();
+}
+
+class _NickNamePageState extends State<NickNamePage> {
+  final TextEditingController _nicknameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // 컨트롤러 리스너를 통해 입력 이벤트 감지
+    _nicknameController.addListener(() {
+      widget.onNickNameEntered(_nicknameController.text);
+    });
+  }
+
+  @override
+  void dispose() {
+    // 컨트롤러 해제
+    _nicknameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +53,6 @@ class NickNamePage extends StatelessWidget {
                 hintText: '2~10자',
               ),
               maxLength: 10,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (_nicknameController.text.isNotEmpty) {
-                  onNickNameEntered(_nicknameController.text); // 콜백 호출
-                }
-              },
-              child: Text("다음"),
             ),
           ],
         ),

@@ -13,9 +13,12 @@ class InitialSettingPage extends StatefulWidget {
 
 class _InitialSettingPageState extends State<InitialSettingPage> {
   final PageController _pageController = PageController();
-  String nickname = '';
   int currentPage = 0;
   bool _isNextButtonPressed = false;
+
+  String nickname = '';
+  String selectedDays = '';
+  String selectedTime = '';
 
   @override
   void initState() {
@@ -121,11 +124,14 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
                   setState(() {
                     nickname = value;
                   });
-                  _goToNextPage();
                 },
               ),
               CallSchedulePage(nickname: nickname),
-              CompletePage(),
+              CompletePage(
+                nickname: nickname,
+                selectedDays: selectedDays,
+                selectedTime: selectedTime,
+              ),
             ],
           ),
         ),
@@ -145,7 +151,7 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
               borderRadius: BorderRadius.circular(0),
             ),
           ),
-          onPressed: _goToNextPage,
+          onPressed: nickname.isNotEmpty ? _goToNextPage : null,
           child: Text("다음으로"),
         ),
       );
