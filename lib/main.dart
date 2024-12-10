@@ -48,10 +48,10 @@ class MyApp extends StatelessWidget {
         initialRoute: initialRoute,
         routes: {
           '/initial_page': (context) => InitialPage(),
+          '/initial_setting': (context) => InitialSettingPage(),
           //'/initial_setting_origin': (context) => SettingPage(),
           '/call_setting_page_ml03': (context) => CallSettingsPage(),
           '/page_indicator': (context) => PageIndicator(),
-          '/initial_setting': (context) => InitialSettingPage(),
           '/caller_screen': (context) => CallerPage(),
           '/calling_page': (context) => CallingPage(),
           '/main_board': (context) => Board2Page(),

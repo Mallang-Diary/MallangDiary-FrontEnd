@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'callschedule_page.dart';
 
@@ -10,7 +11,9 @@ class NickNamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -30,6 +33,14 @@ class NickNamePage extends StatelessWidget {
               maxLength: 10,
             ),
             SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if (_nicknameController.text.isNotEmpty) {
+                  onNickNameEntered(_nicknameController.text); // 콜백 호출
+                }
+              },
+              child: Text("다음"),
+            ),
           ],
         ),
       ),

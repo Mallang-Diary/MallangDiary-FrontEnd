@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
 
 class CompletePage extends StatefulWidget {
   @override
@@ -9,6 +10,10 @@ class CompletePage extends StatefulWidget {
 }
 
 class _CompletePage extends State<CompletePage> {
+  final DiarySettingService _diarySettingService = DiarySettingService();
+
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
