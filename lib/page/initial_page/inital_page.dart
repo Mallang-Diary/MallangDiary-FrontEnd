@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -25,7 +26,7 @@ class _InitialPageState extends State<InitialPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Align(
-        alignment: Alignment(0, -1/3),
+        alignment: Alignment(0, -1 / 3),
         child: Text(
           '말로하는 쉬운 일기\n말랑일기',
           style: TextStyle(
@@ -47,6 +48,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _controller = PageController();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void navigateToInitialSetting() {
+    Navigator.pushReplacementNamed(context, '/initial_setting');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -55,16 +66,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Padding(
             padding: const EdgeInsets.only(top: 100),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // 내부 여백 설정
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.white, // 배경 색상
-                borderRadius: BorderRadius.circular(20), // 타원형
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5), // 그림자 색상
+                    color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 4,
-                    offset: Offset(0, 2), // 그림자 위치
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),
@@ -72,32 +83,42 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 controller: _controller,
                 count: 3,
                 effect: WormEffect(
-                  activeDotColor: Colors.black, // 활성화된 점 색상
-                  dotColor: Colors.grey[400]!,  // 비활성 점 색상
-                  dotHeight: 10,                // 점 높이
-                  dotWidth: 10,                 // 점 너비
-                  spacing: 12,                   // 점 간 간격
+                  activeDotColor: Colors.black,
+                  dotColor: Colors.grey[400]!,
+                  dotHeight: 10,
+                  dotWidth: 10,
+                  spacing: 12,
                 ),
               ),
             ),
           ),
           Expanded(
-            child: PageView(
-              controller: _controller,
-              children: [
-                OnboardingPage(
-                  title: '매일 일정한 시간에\n전화를 드려요',
-                  imagePath: 'assets/images/image1.jpg',
-                ),
-                OnboardingPage(
-                  title: '전화를 하듯\n오늘 하루를 얘기해보세요',
-                  imagePath: 'assets/images/image2.jpg',
-                ),
-                OnboardingPage(
-                  title: '일기를\n자동으로 써드릴게요',
-                  imagePath: 'assets/images/image3.jpg',
-                ),
-              ],
+            child: NotificationListener<UserScrollNotification>(
+              onNotification: (notification) {
+                if (_controller.page == 2 &&
+                    notification.direction == ScrollDirection.reverse) {
+                  navigateToInitialSetting();
+                  return true;
+                }
+                return false;
+              },
+              child: PageView(
+                controller: _controller,
+                children: [
+                  OnboardingPage(
+                    title: '매일 일정한 시간에\n전화를 드려요',
+                    imagePath: 'assets/images/image1.jpg',
+                  ),
+                  OnboardingPage(
+                    title: '전화를 하듯\n오늘 하루를 얘기해보세요',
+                    imagePath: 'assets/images/image2.jpg',
+                  ),
+                  OnboardingPage(
+                    title: '일기를\n자동으로 써드릴게요',
+                    imagePath: 'assets/images/image3.jpg',
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -116,12 +137,11 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      width: double.infinity,
-      margin:EdgeInsets.only(top: 50),
+      margin: EdgeInsets.only(top: 50),
       child: Column(
         children: [
           Align(
-            alignment: Alignment(0, -1/10),
+            alignment: Alignment(0, -1 / 10),
             child: Text(
               title,
               style: TextStyle(
@@ -134,11 +154,11 @@ class OnboardingPage extends StatelessWidget {
           SizedBox(height: 16),
           Container(
             margin: const EdgeInsets.only(top: 50, bottom: 50, left: 50, right: 50),
-            color: Colors.grey, // 회색 배경색
+            color: Colors.grey,
             child: Center(
               child: Image.asset(
                 imagePath,
-                fit: BoxFit.contain, // 이미지 비율을 유지하며 전체 영역에 맞춤
+                fit: BoxFit.contain,
               ),
             ),
           ),
