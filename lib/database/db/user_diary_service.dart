@@ -35,7 +35,7 @@ class UserDiaryService {
         version: 1,
         onCreate: (db, version) async {
           await db.execute('''
-            CREATE TABLE Specs(
+            CREATE TABLE user_diary(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               date TEXT NOT NULL,
               time TEXT NOT NULL,

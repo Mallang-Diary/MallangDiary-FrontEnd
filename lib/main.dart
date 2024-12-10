@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/database/db/user_service.dart';
 import 'package:mallang_project_v1/page/caller/calling_page.dart';
 import 'package:mallang_project_v1/page/diary_board/board1.dart';
 import 'package:mallang_project_v1/page/diary_board/board2.dart';
+import 'package:mallang_project_v1/page/initial_page/inital_page.dart';
 import 'package:mallang_project_v1/page/initial_setting/initial_setting_page.dart';
 import 'package:mallang_project_v1/page/main_page/call_setting_page_ml03.dart';
 import 'package:mallang_project_v1/page/main_page/mypage_ml04.dart';
@@ -14,18 +16,24 @@ import 'package:supabase/supabase.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  // runApp 을 수행하기 전에 비동기 작업을 할 경우 추가해 주는 코드
   WidgetsFlutterBinding.ensureInitialized();
 
-  final supabase = SupabaseClient('https://ojrhvazskoihqvhjscev.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9qcmh2YXpza29paHF2aGpzY2V2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA3Njk0MDQsImV4cCI6MjA0NjM0NTQwNH0.V2PynGINHY_yM-rqAmbvLLMoaFBfZay449luABbmkRA');
-  runApp(MyApp(supabase: supabase));
+  // 사용자 가입 여부 확인
+  bool userExist = false;
+  try {
+    userExist = await UserService().userExists();
+    print("userExist 상태 확인: $userExist");
+  } catch (e) {
+    print("Error while checking user existence: $e");
+  }
+
+  runApp(MyApp(initialRoute: userExist ? '/main_board' : '/initial_page'));
 }
 
 class MyApp extends StatelessWidget {
-  final SupabaseClient supabase;
+  final String initialRoute;
 
-  const MyApp({Key? key, required this.supabase}) : super(key: key);
+  const MyApp({Key? key, required this.initialRoute}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +45,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.lightBlue,
         ),
-        //home: CallerScreen(),
-        home: MyHomePage(supabase: supabase),
+        initialRoute: initialRoute,
         routes: {
+          '/initial_page': (context) => InitialPage(),
           //'/initial_setting_origin': (context) => SettingPage(),
           '/call_setting_page_ml03': (context) => CallSettingsPage(),
           '/page_indicator': (context) => PageIndicator(),
           '/initial_setting': (context) => InitialSettingPage(),
           '/caller_screen': (context) => CallerPage(),
           '/calling_page': (context) => CallingPage(),
-          '/board2_page': (context) => Board2Page(),
+          '/main_board': (context) => Board2Page(),
           '/board1_page': (context) => Board1Page(),
           '/mypage_ml04': (context) => MyPage(),
         },
@@ -69,7 +77,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/mypage_ml04');
+              Navigator.pushNamed(context, '/initial_page');
             },
             child: Text('Go to Initial Setting Page')),
       ),

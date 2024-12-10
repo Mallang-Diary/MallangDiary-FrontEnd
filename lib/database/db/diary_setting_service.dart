@@ -21,7 +21,7 @@ class DiarySettingService {
         version: 1,
         onCreate: (db, version) async {
           await db.execute('''
-            CREATE TABLE Specs(
+            CREATE TABLE user_setting(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               userId INTEGER,
               dayOfWeek TEXT,

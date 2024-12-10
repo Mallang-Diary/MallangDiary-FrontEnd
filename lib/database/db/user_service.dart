@@ -22,7 +22,7 @@ class UserService {
         version: 1,
         onCreate: (db, version) async {
           await db.execute('''
-            CREATE TABLE Specs(
+            CREATE TABLE user(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               nickname TEXT NOT NULL
             )
@@ -75,5 +75,13 @@ class UserService {
         whereArgs: [user.id],
       );
     }
+  }
+
+  // 사용자 존재 여부 확인
+  Future<bool> userExists() async {
+    final db = await database;
+    final result = await db.query(table_name, limit:1);
+
+    return result.isNotEmpty;
   }
 }
