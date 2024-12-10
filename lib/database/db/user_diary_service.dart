@@ -102,4 +102,40 @@ class UserDiaryService {
   // (1). 사진만 지우는 것 ( 안에 내용만 변경하는 것 )
   // (2). 그 날짜에 해당하는 것을 싹 날려보내는 것
 
+  Future<void> delete(UserDiary userDiary) async {
+    final db = await database;
+    print("UserDiary delete ${userDiary.id}");
+    await db?.delete(
+      table_name,
+      where: "id = ?",
+      whereArgs: [userDiary.id],
+    );
+  }
+
+  // delete 가 2개
+  Future<void> deleteDayDiary(int id) async {
+    final db = await database;
+    print("UserDiary delete all ${id}");
+    await db?.delete(
+      table_name,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+
+  }
+
 }
+
+// 이미지 Uint8List 로 변환하기
+// XFile? image = await picker.pickImage();
+// picProvider.insert(Picture(specID: spec.id!, picture: await image.readAsBytes()));
+
+// Uint8List 로 이미지 만들기
+// Image.memory(Uint8List bytes);
+//
+// // in this database
+// Picture pic;
+// Image.memory(pic.picture)
+
+// XFile 로 이미지 만들기
+// Image.file(File(image.path))
