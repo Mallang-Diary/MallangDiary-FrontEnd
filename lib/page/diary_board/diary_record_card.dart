@@ -14,37 +14,45 @@ class DiaryRecordCard extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 16),
-        // CircularPercentIndicator를 제한된 SizedBox로 감쌈
         Center(
-          child: SizedBox(
-            height: 200, // 부모 영역에 제한된 공간 설정
-            width: 200,
-            child: CircularPercentIndicator(
-              radius: 100.0,
-              lineWidth: 20.0,
-              percent: 0.4,
-              startAngle: 180,
-              backgroundColor: Colors.grey[300]!,
-              progressColor: Colors.blue,
-              animation: true,
-              circularStrokeCap: CircularStrokeCap.round,
-              center: Text(
-                "2분 10초",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              arcType: ArcType.HALF,
+          child: CircularPercentIndicator(
+            radius: 100.0,
+            lineWidth: 20.0,
+            percent: 0.4,
+            startAngle: 180,
+            backgroundColor: Colors.grey[300]!,
+            progressColor: Colors.blue,
+            animation: true,
+            circularStrokeCap: CircularStrokeCap.round,
+            center: Text(
+              "2분 10초",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            arcType: ArcType.HALF,
           ),
         ),
         SizedBox(height: 8), // 여백 추가
-        ElevatedButton(
-          onPressed: () {
-            print("일기 녹음하기");
-          },
-          child: Text("일기 녹음하기"),
-          style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-            textStyle: TextStyle(fontSize: 18),
+        Center(
+          child: ElevatedButton.icon(
+            onPressed: () {
+              print("일기 녹음하기");
+            },
+            icon: Icon(
+              Icons.mic,
+              color: Colors.white,
+              size: 24,
+            ),
+            label: Text(
+              "일기 녹음하기",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFF505050),
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
           ),
         ),
         SizedBox(height: 8),

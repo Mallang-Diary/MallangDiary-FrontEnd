@@ -1,53 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_list.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_record_card.dart';
 import 'package:mallang_project_v1/page/diary_board/month_selector.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class Board2Page extends StatelessWidget {
+class Board2Page extends StatefulWidget {
+  @override
+  _Board2PageState createState() => _Board2PageState();
+}
+
+class _Board2PageState extends State<Board2Page> {
+  final DiarySettingService diarySettingService = DiarySettingService();
+  String currentSettingText = "Loading...";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDiarySetting();
+  }
+
+  Future<void> _loadDiarySetting() async {
+    try {
+      final settings = await diarySettingService.getDB();
+      if (settings.isNotEmpty) {
+        setState(() {
+          currentSettingText =
+          "${settings.first.dayOfWeek} ${settings.first.alarmTime} 알림이 울립니다";
+        });
+      } else {
+        setState(() {
+          currentSettingText = "알람 설정 정보가 없습니다.";
+        });
+      }
+    } catch (e) {
+      print("Error loading diary settings: $e");
+      setState(() {
+        currentSettingText = "일정 정보를 불러오는 중 에러가 발생했습니다.";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('ML01-2'),
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.phone),
-                    SizedBox(width: 8),
-                    Text("오늘 오후 5시 일기 전화가 울려요"),
-                  ],
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+
+            Container(
+              width: MediaQuery.of(context).size.width, // 화면 너비의 90%로 제한
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[400]!), // 회색 테두리
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ListTile(
+                leading: Icon(Icons.phone),
+                title: Text(
+                  currentSettingText,
+                  style: TextStyle(fontSize: 16),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                Icon(Icons.settings),
-              ],
+                trailing: Icon(Icons.settings),
+              ),
             ),
             SizedBox(height: 16),
             DiaryRecordCard(),
             Divider(),
             SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                MonthSelector(),
-              ],
-            ),
+            MonthSelector(),
             Expanded(
               child: ListView(
                 children: [
                   DiaryList(
                     date: DateTime.now(),
-                    title: "오늘의 일기",
+                    title: "10월 7일 어제",
                     isChecked: true,
-                    content: "내용내용내용",
+                    content: "교정 상담 뒤에 펼쳐진 소풍의 행복과 복숭아!",
                     images: [
                       AssetImage("assets/images/image1.jpg"),
                       AssetImage("assets/images/image2.jpg"),
@@ -56,52 +88,19 @@ class Board2Page extends StatelessWidget {
                   ),
                   DiaryList(
                     date: DateTime.now(),
-                    title: "오늘의 일기",
-                    isChecked: true,
-                    content: "내용내용내용",
+                    title: "10월 6일 목요일",
+                    isChecked: false,
+                    content: "또 다른 일기의 내용입니다.",
                     images: [
-                      AssetImage("assets/images/image1.jpg"),
                       AssetImage("assets/images/image2.jpg"),
                       AssetImage("assets/images/image3.jpg"),
                     ],
                   ),
-                  // _diaryListTile("10월 7일 어제", "교정 상담 뒤에 펼쳐진 소풍의 행복과 복숭아!"),
-                  // _diaryListTile("10월 6일 목요용", "또 다른 일기의 내용입니다."),
-                  // 이미지 카드 추가
-                  // _imageCard(),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _diaryListTile(String date, String title) {
-    return ListTile(
-      leading: Icon(Icons.book),
-      title: Text(date),
-      subtitle: Text(title),
-      onTap: () {
-        // 일기 상세 보기
-      },
-    );
-  }
-
-  Widget _imageCard() {
-    return Container(
-      height: 150,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          Image.asset("assets/images/image1.jpg"),
-          SizedBox(width: 8),
-          Image.asset("assets/images/image2.jpg"),
-          SizedBox(width: 8),
-          Image.asset("assets/images/image3.jpg"),
-        ],
       ),
     );
   }
