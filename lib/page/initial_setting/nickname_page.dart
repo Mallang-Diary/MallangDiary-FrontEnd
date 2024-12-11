@@ -42,7 +42,7 @@ class _NickNamePageState extends State<NickNamePage> {
           children: [
             Text(
               '안녕하세요.\n당신을 어떻게 불러드릴까요?',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.left,
             ),
             SizedBox(height: 20),

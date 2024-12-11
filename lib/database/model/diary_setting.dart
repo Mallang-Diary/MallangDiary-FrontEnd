@@ -23,12 +23,12 @@ class DiarySetting {
   factory DiarySetting.fromJson(Map<String, dynamic> json) {
     return DiarySetting(
       id: json['id'] as int?,
-      userId: json['user_id'] as int,
-      dayOfWeek: json['day_of_week'] as String,
-      alarmTime: json['alarm_time'] as String,
-      alarmSound: json['alarm_sound'] as String,
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at']) // JSON의 타임스탬프를 Dart DateTime으로 변환
+      userId: json['userId'] as int,
+      dayOfWeek: json['dayOfWeek'] as String,
+      alarmTime: json['alarmTime'] as String,
+      alarmSound: json['alarmSound'] as String,
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt']) // JSON의 타임스탬프를 Dart DateTime으로 변환
           : null,
     );
   }
@@ -41,11 +41,11 @@ class DiarySetting {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'user_id': userId,
-      'day_of_week': dayOfWeek,
-      'alarm_time': alarmTime,
-      'alarm_sound': alarmSound,
-      'created_at': createdAt?.toIso8601String(),
+      'userId': userId,
+      'dayOfWeek': dayOfWeek,
+      'alarmTime': alarmTime,
+      'alarmSound': alarmSound,
+      'createdAt': createdAt?.toIso8601String(),
     };
   }
 }
@@ -53,3 +53,4 @@ class DiarySetting {
 // [ 사용법 ]
 // final jsonData = diarySetting.toJson();
 // print(jsonData);
+// database 조회 :  https://velog.io/@developerelen/Flutter-sqflite-database-file-%EC%B0%BE%EA%B8%B0

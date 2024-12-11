@@ -75,7 +75,7 @@ class _CallSchedulePageState extends State<CallSchedulePage> {
             children: [
               SizedBox(height: 16),
               Text(
-                '${widget.nickname}님, 언제 일기 전화를 드릴까요?',
+                '${widget.nickname}님,\n언제 일기 전화를 드릴까요?',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 24),

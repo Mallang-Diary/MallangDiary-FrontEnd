@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
+import 'package:mallang_project_v1/database/db/user_service.dart';
+import 'package:mallang_project_v1/database/model/diary_setting.dart';
+import 'package:mallang_project_v1/database/model/user.dart';
 import 'package:mallang_project_v1/page/initial_setting/callschedule_page.dart';
 import 'package:mallang_project_v1/page/initial_setting/complete_page.dart';
 import 'package:mallang_project_v1/page/initial_setting/nickname_page.dart';
@@ -19,6 +23,9 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
   String nickname = '';
   String selectedDays = '';
   String selectedTime = '';
+
+  final UserService _userService = UserService();
+  final DiarySettingService _diarySettingService = DiarySettingService();
 
   @override
   void initState() {
@@ -56,6 +63,14 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
       duration: Duration(milliseconds: 300),
       curve: Curves.ease,
     );
+  }
+
+  // Callback 핸들러
+  void _handleScheduleChange(String days, String time) {
+    setState(() {
+      selectedDays = days;
+      selectedTime = time;
+    });
   }
 
   @override
@@ -126,12 +141,11 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
                   });
                 },
               ),
-              CallSchedulePage(nickname: nickname),
-              CompletePage(
+              CallSchedulePage(
                 nickname: nickname,
-                selectedDays: selectedDays,
-                selectedTime: selectedTime,
+                onScheduleChanged: _handleScheduleChange,
               ),
+              CompletePage(),
             ],
           ),
         ),
@@ -155,6 +169,40 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
           child: Text("다음으로"),
         ),
       );
+    }
+
+    void _handleSaveData() async {
+
+      print("DB 저장 ${nickname} - ${selectedDays} - ${selectedTime}");
+
+      try {
+        await _userService.insert(User(
+          id: 1,
+          nickname: nickname,
+        ));  // User
+
+        await _diarySettingService.insert(DiarySetting(
+          userId: 1,
+          dayOfWeek: selectedDays,
+          alarmTime: selectedTime,
+          alarmSound: "default",
+          createdAt: DateTime.now(),
+        ));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("저장 완료")),
+        );
+
+        // 2초 후에 메인 페이지로 이동
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.pushReplacementNamed(context, '/main_board');
+        });
+      } catch (e) {
+        print("저장 실패 원인: $e"); // 에러 원인 출력
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("저장 실패")),
+        );
+      }
     }
 
     return Row(
@@ -184,7 +232,13 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
                 borderRadius: BorderRadius.circular(0),
               ),
             ),
-            onPressed: _goToNextPage,
+            onPressed: () {
+              if (currentPage == 2) {
+              _handleSaveData(); // 마지막 페이지인 경우 저장
+              } else {
+              _goToNextPage(); // 나머지 페이지에서 다음으로 이동
+              }
+            },
             child: Text("다음으로"),
           ),
         ),
@@ -192,3 +246,4 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
     );
   }
 }
+

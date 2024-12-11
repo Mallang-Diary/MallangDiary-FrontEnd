@@ -32,6 +32,24 @@ class UserService {
     );
   }
 
+  // 혹시 몰라서 만든 함수 ( 모든 사용자 데이터 조회 )
+  Future<List<User>> getAllUsers() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db!.query(table_name);
+
+    if ( maps.isEmpty ) return [];
+
+    List<User> list = maps.map((userMap) => User.fromJson(userMap)).toList();
+    return list;
+  }
+
+  // 테이블 전체 삭제
+  Future<void> clearUsers() async {
+    final db = await database;
+    await db?.delete(table_name);
+
+  }
+
   // 쿼리 날려서 들고오기
   Future<List<User>> getQuery(String query) async {
     final db = await database;

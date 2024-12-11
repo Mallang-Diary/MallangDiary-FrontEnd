@@ -23,6 +23,30 @@ void main() async {
   try {
     userExist = await UserService().userExists();
     print("userExist 상태 확인: $userExist");
+
+    // 임시 방편 코드
+    //====================================================
+    if ( userExist ) {
+      // DB 데이터 조회
+      final users = await UserService().getAllUsers();
+      if ( users.isNotEmpty ) {
+        print("현재 DB 사용자 데이터 출력 : ");
+        for ( var user in users ){
+          print("User ID: ${user.id}, Nickname: ${user.nickname}");
+        }
+      } else {
+        print("DB에 저장된 사용자 데이터가 없습니다.");
+      }
+
+      // DB 삭제
+      await UserService().clearUsers();
+      print("DB 내 모든 사용자 데이터를 삭제하였습니다.");
+    } else {
+      print("DB에 사용자 데이터가 존재하지 않습니다.");
+    }
+
+    //====================================================
+
   } catch (e) {
     print("Error while checking user existence: $e");
   }
