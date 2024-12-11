@@ -14,10 +14,11 @@ class DiaryRecordCard extends StatelessWidget {
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 16),
+        // CircularPercentIndicator를 제한된 SizedBox로 감쌈
         Center(
-            child: Column(children: [
-          SizedBox(
-            height: 150,
+          child: SizedBox(
+            height: 200, // 부모 영역에 제한된 공간 설정
+            width: 200,
             child: CircularPercentIndicator(
               radius: 100.0,
               lineWidth: 20.0,
@@ -29,31 +30,29 @@ class DiaryRecordCard extends StatelessWidget {
               circularStrokeCap: CircularStrokeCap.round,
               center: Text(
                 "2분 10초",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               arcType: ArcType.HALF,
             ),
           ),
-          Transform.translate(
-            offset: const Offset(0, -30),
-            child: ElevatedButton(
-              onPressed: () {
-                // "일기 녹음하기" 버튼 클릭 시 동작 정의
-                print("일기 녹음하기");
-              },
-              child: Text("일기 녹음하기"),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                textStyle: TextStyle(fontSize: 18),
-              ),
-            ),
+        ),
+        SizedBox(height: 8), // 여백 추가
+        ElevatedButton(
+          onPressed: () {
+            print("일기 녹음하기");
+          },
+          child: Text("일기 녹음하기"),
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+            textStyle: TextStyle(fontSize: 18),
           ),
-          Text(
-            "일기는 지정된 시간이 지나면 자동으로 생성되며 재생성되지 않습니다.",
-            style: TextStyle(fontSize: 14, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-        ]))
+        ),
+        SizedBox(height: 8),
+        Text(
+          "일기는 지정된 시간이 지나면 자동으로 생성되며 재생성되지 않습니다.",
+          style: TextStyle(fontSize: 14, color: Colors.grey),
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }
