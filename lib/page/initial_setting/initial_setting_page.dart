@@ -186,7 +186,7 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
           dayOfWeek: selectedDays,
           alarmTime: selectedTime,
           alarmSound: "default",
-          createdAt: DateTime.now(),
+          createdAt: DateTime.now().toIso8601String(),
         ));
 
         ScaffoldMessenger.of(context).showSnackBar(

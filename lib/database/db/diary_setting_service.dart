@@ -41,6 +41,8 @@ class DiarySettingService {
     final List<Map<String, dynamic>> maps = await db!.query(table_name);
     if (maps.isEmpty) return [];
 
+    print("Get DB : {$maps[0][\"createdAt\"]");
+
     List<DiarySetting> list = List.generate(
       maps.length,
           (index) {
@@ -54,6 +56,8 @@ class DiarySettingService {
         );
       },
     );
+
+    print("DB : {$list}");
 
     return list;
   }

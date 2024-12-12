@@ -8,7 +8,7 @@ class DiarySetting {
   String dayOfWeek; // 요일 (예: MON, TUE)
   String alarmTime; // 알람 시간 (HH:mm 형태로 저장)
   String alarmSound; // 알람음 경로
-  DateTime? createdAt; // 알람 생성 일시
+  String? createdAt; // 알람 생성 일시
 
   DiarySetting({
     this.id,
@@ -21,15 +21,14 @@ class DiarySetting {
 
   /// JSON 데이터를 DiarySetting 인스턴스로 변환
   factory DiarySetting.fromJson(Map<String, dynamic> json) {
+    print("json['createdAt']: ${json['createdAt']}"); // 디버깅을 위한 출력
     return DiarySetting(
       id: json['id'] as int?,
       userId: json['userId'] as int,
       dayOfWeek: json['dayOfWeek'] as String,
       alarmTime: json['alarmTime'] as String,
       alarmSound: json['alarmSound'] as String,
-      createdAt: json['createdAt'] != null
-          ? DateTime.parse(json['createdAt']) // JSON의 타임스탬프를 Dart DateTime으로 변환
-          : null,
+      createdAt: json['createdAt'] as String,
     );
   }
 
@@ -45,7 +44,7 @@ class DiarySetting {
       'dayOfWeek': dayOfWeek,
       'alarmTime': alarmTime,
       'alarmSound': alarmSound,
-      'createdAt': createdAt?.toIso8601String(),
+      'createdAt': createdAt,
     };
   }
 }

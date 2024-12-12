@@ -26,7 +26,7 @@ void main() async {
 
     // 임시 방편 코드
     //====================================================
-    if ( userExist ) {
+    /*if ( userExist ) {
       // DB 데이터 조회
       final users = await UserService().getAllUsers();
       if ( users.isNotEmpty ) {
@@ -43,7 +43,7 @@ void main() async {
       print("DB 내 모든 사용자 데이터를 삭제하였습니다.");
     } else {
       print("DB에 사용자 데이터가 존재하지 않습니다.");
-    }
+    }*/
 
     //====================================================
 

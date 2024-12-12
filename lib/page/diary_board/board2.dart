@@ -64,7 +64,7 @@ class _Board2PageState extends State<Board2Page> {
                   style: TextStyle(fontSize: 16),
                   overflow: TextOverflow.ellipsis,
                 ),
-                trailing: Icon(Icons.settings),
+                trailing: Icon(Icons.person_3_outlined),
               ),
             ),
             SizedBox(height: 16),
