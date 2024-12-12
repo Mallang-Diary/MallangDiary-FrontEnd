@@ -17,21 +17,30 @@ class DiaryRecordCard extends StatelessWidget {
         Center(
           child: CircularPercentIndicator(
             radius: 100.0,
-            lineWidth: 20.0,
+            lineWidth: 12.0,
             percent: 0.4,
             startAngle: 180,
-            backgroundColor: Colors.grey[300]!,
-            progressColor: Colors.blue,
+            backgroundColor: Colors.grey[200]!,
+            progressColor: Colors.black12,
             animation: true,
             circularStrokeCap: CircularStrokeCap.round,
-            center: Text(
-              "2분 10초",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            center: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "2분 10초",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                "3분",
+                style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+              ]
             ),
             arcType: ArcType.HALF,
           ),
         ),
-        SizedBox(height: 8), // 여백 추가
+        SizedBox(height: 16), // 여백 추가
         Center(
           child: ElevatedButton.icon(
             onPressed: () {
@@ -44,10 +53,10 @@ class DiaryRecordCard extends StatelessWidget {
             ),
             label: Text(
               "일기 녹음하기",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF505050),
+              backgroundColor: Colors.grey[800],
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

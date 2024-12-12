@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
+import 'package:mallang_project_v1/database/model/diary_setting.dart';
 
 class CallerPage extends StatefulWidget {
+  // 알람을 백그라운드에서 실행할 수 있도록 개발해야 함
   @override
   State<StatefulWidget> createState() {
     return _CallerPage();  // 실제 UI를 그릴 _CallerPage로 이동
@@ -12,6 +17,11 @@ class CallerPage extends StatefulWidget {
 }
 
 class _CallerPage extends State<CallerPage> {
+  late DiarySettingService _diarySettingService;
+  late Timer _timer;
+
+
+
   late AudioPlayer audioPlayer;
   Color _backgroundColor = Color(0xFF163345);
   Random random = Random();
@@ -38,8 +48,52 @@ class _CallerPage extends State<CallerPage> {
   void initState() {
     super.initState();
     audioPlayer = AudioPlayer();
+
+    _diarySettingService = DiarySettingService();
+    _startAlarmCheck();
+
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
+
+  }
+
+  void _startAlarmCheck() {
+    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+      _checkAndRing();
+    });
+  }
+
+  Future<void> _checkAndRing() async {
+    final now = DateTime.now();
+    final currentDay = _getCurrentDay(now);
+    final currentTime = _getCurrentTime(now);
+
+    final alarmSettings = await _getAlarmSettings();
+    for (var setting in alarmSettings) {
+      if (setting.dayOfWeek.contains(currentDay) && setting.alarmTime == currentTime) {
+        _ring();
+        break;
+      }
+    }
+  }
+
+  String _getCurrentDay(DateTime dateTime) {
+    final days = ['월', '화', '수', '목', '금', '토', '일'];
+    return days[dateTime.weekday - 1];
+  }
+
+  String _getCurrentTime(DateTime dateTime) {
+    return DateFormat('HH:mm').format(dateTime);
+  }
+
+  Future<List<DiarySetting>> _getAlarmSettings() async {
+    return await _diarySettingService.getDB();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   void _start() {
