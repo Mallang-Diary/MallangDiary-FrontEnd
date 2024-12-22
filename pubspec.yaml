@@ -21,7 +21,7 @@ version: 1.0.0+1
 environment:
   sdk: ^3.5.4
 
-# Dependencies specify other packages that your package needs in order to work.
+# Dependencies specify other packages that your package needs in order to work.i
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
 # dependencies can be manually updated by changing the version numbers below to
@@ -42,7 +42,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   supabase_flutter: ^2.8.0
   audioplayers: ^6.1.0
-  flutter_sound: ^9.17.0
+  flutter_sound: ^9.17.8
   path_provider: ^2.1.5
   permission_handler: ^11.3.1
   provider: ^6.1.2
