@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/database/db/user_diary_service.dart';
 import 'package:mallang_project_v1/database/db/user_service.dart';
+import 'package:mallang_project_v1/database/model/user.dart';
 
 class MyPage extends StatelessWidget {
   final UserService _userService = UserService();
@@ -21,9 +22,9 @@ class MyPage extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
 
-          final user = snapshot.data![0];
-          final diaryCount = snapshot.data![1];
-          final diaryThisMonthCount = snapshot.data![2];
+          final user = snapshot.data![0] as User;
+          final diaryCount = snapshot.data![1] as int;
+          final diaryThisMonthCount = snapshot.data![2] as int;
 
           return Scaffold(
             appBar: AppBar(
@@ -49,7 +50,7 @@ class MyPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "다온의 일기",
+                    "${user.nickname}의 일기",
                     style: TextStyle(
                       fontSize: 18, // 제목 글자 크기
                       fontWeight: FontWeight.bold, // 제목 글자 굵기
