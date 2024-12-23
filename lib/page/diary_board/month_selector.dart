@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mallang_project_v1/main.dart';
 import 'package:mallang_project_v1/state/app_state.dart';
 import 'package:provider/provider.dart';
 
