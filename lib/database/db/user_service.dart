@@ -7,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 // 나중에 diary_setting_service 에 함께 넣어도 될 것 같음
 
 class UserService {
+
   late Database _database;
   final table_name = 'user';
 
@@ -30,6 +31,16 @@ class UserService {
         },
         onUpgrade: (db, oldVersion, newVersion){}
     );
+  }
+
+  // 단건 조회
+  Future<User?> getUser() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db!.query(table_name, limit: 1);
+
+    if (maps.isEmpty) return null;
+
+    return User.fromJson(maps.first);
   }
 
   // 혹시 몰라서 만든 함수 ( 모든 사용자 데이터 조회 )
@@ -83,16 +94,16 @@ class UserService {
       where: "id = ?",
       whereArgs: [user.id],
     );
+  }
 
-    // DB delete
-    Future<void> delete(User user) async {
-      final db = await database;
-      await db?.delete(
-        table_name,
-        where: "id = ?",
-        whereArgs: [user.id],
-      );
-    }
+  // DB delete
+  Future<void> delete(User user) async {
+    final db = await database;
+    await db?.delete(
+      table_name,
+      where: "id = ?",
+      whereArgs: [user.id],
+    );
   }
 
   // 사용자 존재 여부 확인

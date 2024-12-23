@@ -124,6 +124,22 @@ class UserDiaryService {
 
   }
 
+  Future<int> countAll() async {
+    final db = await database;
+    print("UserDiary countAll");
+    final count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM $table_name'));
+    return count ?? 0;
+  }
+
+  // 이번달 일기 개수
+  Future<int> countThisMonth() async {
+    final db = await database;
+    print("UserDiary countThisMonth");
+    final now = DateTime.now();
+    final currentMonth = "${now.year}-${now.month.toString().padLeft(2, '0')}";
+    final count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM $table_name WHERE strftime("%Y-%m", date) = ?', [currentMonth]));
+    return count ?? 0;
+  }
 }
 
 // 이미지 Uint8List 로 변환하기
