@@ -146,7 +146,6 @@ class UserDiaryService {
       where: "id = ?",
       whereArgs: [id],
     );
-
   }
 
   Future<int> countAll() async {

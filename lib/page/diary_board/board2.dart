@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_list.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_record_card.dart';
-import 'package:mallang_project_v1/page/diary_board/month_selector.dart';
+import 'package:mallang_project_v1/state/app_state.dart';
+import 'package:provider/provider.dart';
 
 class Board2Page extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class Board2Page extends StatefulWidget {
 }
 
 class _Board2PageState extends State<Board2Page> {
-  final DiarySettingService diarySettingService = DiarySettingService();
+  final DiarySettingService _diarySettingService = DiarySettingService();
   String currentSettingText = "Loading...";
 
   @override
@@ -21,11 +22,11 @@ class _Board2PageState extends State<Board2Page> {
 
   Future<void> _loadDiarySetting() async {
     try {
-      final settings = await diarySettingService.getDB();
+      final settings = await _diarySettingService.getDB();
       if (settings.isNotEmpty) {
         setState(() {
           currentSettingText =
-          "${settings.first.dayOfWeek} ${settings.first.alarmTime} 알림이 울립니다";
+              "${settings.first.dayOfWeek} ${settings.first.alarmTime} 알림이 울립니다";
         });
       } else {
         setState(() {
@@ -50,7 +51,6 @@ class _Board2PageState extends State<Board2Page> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-
             Container(
               width: MediaQuery.of(context).size.width, // 화면 너비의 90%로 제한
               decoration: BoxDecoration(
@@ -76,34 +76,7 @@ class _Board2PageState extends State<Board2Page> {
             DiaryRecordCard(),
             Divider(),
             SizedBox(height: 16),
-            MonthSelector(),
-            Expanded(
-              child: ListView(
-                children: [
-                  DiaryList(
-                    date: DateTime.now(),
-                    title: "10월 7일 어제",
-                    isChecked: true,
-                    content: "교정 상담 뒤에 펼쳐진 소풍의 행복과 복숭아!",
-                    images: [
-                      AssetImage("assets/images/image1.jpg"),
-                      AssetImage("assets/images/image2.jpg"),
-                      AssetImage("assets/images/image3.jpg"),
-                    ],
-                  ),
-                  DiaryList(
-                    date: DateTime.now(),
-                    title: "10월 6일 목요일",
-                    isChecked: false,
-                    content: "또 다른 일기의 내용입니다.",
-                    images: [
-                      AssetImage("assets/images/image2.jpg"),
-                      AssetImage("assets/images/image3.jpg"),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            Expanded(child: DiaryList())
           ],
         ),
       ),

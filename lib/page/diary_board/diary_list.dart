@@ -1,96 +1,62 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/page/diary_board/month_selector.dart';
+import 'package:provider/provider.dart';
+
+import '../../database/db/user_diary_service.dart';
+import '../../database/model/user_diary.dart';
+import '../../state/app_state.dart';
+import 'diary_list_item.dart';
 
 class DiaryList extends StatelessWidget {
-  final DateTime date;
-  final String title;
-  final bool isChecked;
-  final String content;
-  final List<AssetImage> images;
+  final _userDiaryService = UserDiaryService();
 
-  const DiaryList({
-    super.key,
-    required this.date,
-    required this.title,
-    required this.isChecked,
-    required this.content,
-    required this.images,
-  });
-
-  // 요일 변환
-  String _getFormattedDate(DateTime date) {
-    final List<String> weekdays = [
-      "월요일",
-      "화요일",
-      "수요일",
-      "목요일",
-      "금요일",
-      "토요일",
-      "일요일",
-    ];
-    return "${date.year}년 ${date.month}월 ${date.day}일 ${weekdays[date.weekday - 1]}";
-  }
+  DiaryList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                _getFormattedDate(date),
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Icon(
-                isChecked
-                    ? Icons.check_box_sharp
-                    : Icons.radio_button_unchecked,
-                color: isChecked ? Colors.blue : Colors.grey,
-                size: 24,
-              ),
-            ],
-          ),
-          SizedBox(height: 4),
-          Text(
-            title,
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(height: 12),
+    final monthState = context.watch<AppState>();
 
-          // 본문 텍스트
-          Text(
-            content,
-            style: TextStyle(fontSize: 16, color: Colors.black87),
-          ),
-          SizedBox(height: 16),
+    return FutureBuilder(
+      future: _userDiaryService.getAllByMonth(monthState.currentMonth),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
 
-          // 이미지 그리드
-          GridView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // 2열로 배치
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-            ),
-            itemCount: images.length,
-            itemBuilder: (context, index) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image(
-                  image: images[index],
-                  fit: BoxFit.cover,
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+        final diaryList = snapshot.data as List<UserDiary>;
+
+        return Column(
+          children: [
+            MonthSelector(),
+            Expanded(
+                child: ListView(shrinkWrap: true, children: [
+              DiaryListItem(
+                date: DateTime.now(),
+                title: "10월 7일 어제",
+                isChecked: true,
+                content: "교정 상담 뒤에 펼쳐진 소풍의 행복과 복숭아!",
+                images: [
+                  AssetImage("assets/images/image1.jpg"),
+                  AssetImage("assets/images/image2.jpg"),
+                  AssetImage("assets/images/image3.jpg"),
+                ],
+              ),
+              DiaryListItem(
+                date: DateTime.now(),
+                title: "10월 6일 목요일",
+                isChecked: false,
+                content: "또 다른 일기의 내용입니다.",
+                images: [
+                  AssetImage("assets/images/image2.jpg"),
+                  AssetImage("assets/images/image3.jpg"),
+                ],
+              ),
+            ])),
+          ],
+        );
+      },
     );
   }
 }
