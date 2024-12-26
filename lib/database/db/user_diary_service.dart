@@ -5,9 +5,9 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserDiaryService {
-
-  static final UserDiaryService _userDiaryService = UserDiaryService._internal();
-  UserDiaryService._internal(){
+  static final UserDiaryService _userDiaryService =
+      UserDiaryService._internal();
+  UserDiaryService._internal() {
     // init values;
 
     /*
@@ -19,7 +19,6 @@ class UserDiaryService {
     return _userDiaryService;
   }
 
-
   late Database _database;
   final table_name = 'user_diary';
 
@@ -30,22 +29,19 @@ class UserDiaryService {
 
   initDB() async {
     String path = join(await getDatabasesPath(), 'UserDiary.db');
-    return await openDatabase(
-        path,
-        version: 1,
-        onCreate: (db, version) async {
-          await db.execute('''
+    return await openDatabase(path, version: 1, onCreate: (db, version) async {
+      await db.execute('''
             CREATE TABLE user_diary(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               date TEXT NOT NULL,
               time TEXT NOT NULL,
+              title TEXT NOT NULL,
               context TEXT,
-              pictureList BLOB
+              pictureList BLOB,
+              isChecked BOOLEAN NOT NULL DEFAULT 0
             )
           ''');
-        },
-        onUpgrade: (db, oldVersion, newVersion){}
-    );
+    }, onUpgrade: (db, oldVersion, newVersion) {});
   }
 
   // DB 전체 들고 오기
@@ -56,13 +52,15 @@ class UserDiaryService {
 
     List<UserDiary> list = List.generate(
       maps.length,
-          (index) {
+      (index) {
         return UserDiary(
           id: maps[index]["id"],
           date: maps[index]["date"],
           time: maps[index]["time"],
+          title: maps[index]["title"],
           context: maps[index]["context"],
           pictureList: maps[index]["pictureList"],
+          isChecked: maps[index]["isChecked"],
         );
       },
     );
@@ -78,13 +76,39 @@ class UserDiaryService {
 
     List<UserDiary> list = List.generate(
       maps.length,
-          (index) {
+      (index) {
         return UserDiary(
           id: maps[index]["id"],
           date: maps[index]["date"],
           time: maps[index]["time"],
+          title: maps[index]["title"],
+          context: maps[index]["context"],
+          isChecked: maps[index]["isChecked"],
+          pictureList: maps[index]["pictureList"],
+        );
+      },
+    );
+
+    return list;
+  }
+
+  Future<List<UserDiary>> getAllByMonth(DateTime month) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db!.query(table_name,
+        where: "date LIKE ?", whereArgs: ["%${month.year}-${month.month}%"]);
+    if (maps.isEmpty) return [];
+
+    List<UserDiary> list = List.generate(
+      maps.length,
+      (index) {
+        return UserDiary(
+          id: maps[index]["id"],
+          date: maps[index]["date"],
+          time: maps[index]["time"],
+          title: maps[index]["title"],
           context: maps[index]["context"],
           pictureList: maps[index]["pictureList"],
+          isChecked: maps[index]["isChecked"],
         );
       },
     );
@@ -95,8 +119,9 @@ class UserDiaryService {
   // DB Insert ( 삽입 )
   Future<void> insert(UserDiary userDiary) async {
     final db = await database;
-    print("UserDiary insert ${userDiary.id} (${userDiary.date}:${userDiary.time}");
-    userDiary.id = await db?.insert(table_name, userDiary.toJson());
+    print(
+        "UserDiary insert ${userDiary.id} (${userDiary.date}:${userDiary.time}");
+    userDiary.id = await db.insert(table_name, userDiary.toJson());
   }
 
   // (1). 사진만 지우는 것 ( 안에 내용만 변경하는 것 )
@@ -127,7 +152,8 @@ class UserDiaryService {
   Future<int> countAll() async {
     final db = await database;
     print("UserDiary countAll");
-    final count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM $table_name'));
+    final count = Sqflite.firstIntValue(
+        await db!.rawQuery('SELECT COUNT(*) FROM $table_name'));
     return count ?? 0;
   }
 
@@ -137,7 +163,9 @@ class UserDiaryService {
     print("UserDiary countThisMonth");
     final now = DateTime.now();
     final currentMonth = "${now.year}-${now.month.toString().padLeft(2, '0')}";
-    final count = Sqflite.firstIntValue(await db!.rawQuery('SELECT COUNT(*) FROM $table_name WHERE strftime("%Y-%m", date) = ?', [currentMonth]));
+    final count = Sqflite.firstIntValue(await db!.rawQuery(
+        'SELECT COUNT(*) FROM $table_name WHERE strftime("%Y-%m", date) = ?',
+        [currentMonth]));
     return count ?? 0;
   }
 }
