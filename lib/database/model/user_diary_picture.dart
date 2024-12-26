@@ -1,11 +1,11 @@
 // db class
 class UserDiaryPicture {
-  final int id;
+  final int? id;
   final int userDiaryId;
   final String picturePath;
 
   UserDiaryPicture({
-    required this.id,
+    this.id,
     required this.userDiaryId,
     required this.picturePath,
   });

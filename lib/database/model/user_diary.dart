@@ -3,7 +3,7 @@ import 'dart:typed_data';
 class UserDiary {
   // 날짜 하나에 내용과 사진 여러개가 담길 수 있어서
   // 날짜 값이 id 랑 비슷한 primary key 가 되어야 할 것같기도 하고
-  int id;
+  int? id;
   String date;
   String time;
   String title;
@@ -13,7 +13,7 @@ class UserDiary {
   // 녹음 파일도 추가하기
 
   UserDiary(
-      {required this.id,
+      {this.id,
       required this.date,
       required this.time,
       required this.title,
