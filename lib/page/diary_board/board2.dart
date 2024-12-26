@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_list.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_record_card.dart';
-import 'package:mallang_project_v1/state/app_state.dart';
-import 'package:provider/provider.dart';
+
+import 'month_selector.dart';
 
 class Board2Page extends StatefulWidget {
   @override
@@ -76,6 +76,7 @@ class _Board2PageState extends State<Board2Page> {
             DiaryRecordCard(),
             Divider(),
             SizedBox(height: 16),
+            MonthSelector(),
             Expanded(child: DiaryList())
           ],
         ),

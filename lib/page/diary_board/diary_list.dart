@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mallang_project_v1/page/diary_board/month_selector.dart';
 import 'package:provider/provider.dart';
 
 import '../../database/db/user_diary_service.dart';
@@ -29,7 +28,6 @@ class DiaryList extends StatelessWidget {
 
         return Column(
           children: [
-            MonthSelector(),
             Expanded(
                 child: ListView(shrinkWrap: true, children: [
               DiaryListItem(
