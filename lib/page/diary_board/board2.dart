@@ -51,6 +51,14 @@ class _Board2PageState extends State<Board2Page> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            // 뒤로가기 (for dev test page)
+            if (Navigator.canPop(context))
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
             Container(
               width: MediaQuery.of(context).size.width, // 화면 너비의 90%로 제한
               decoration: BoxDecoration(

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/database/db/user_service.dart';
+import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page/caller/calling_page.dart';
+import 'package:mallang_project_v1/page/dev/dev_page.dart';
 import 'package:mallang_project_v1/page/diary_board/board1.dart';
 import 'package:mallang_project_v1/page/diary_board/board2.dart';
 import 'package:mallang_project_v1/page/initial_page/inital_page.dart';
 import 'package:mallang_project_v1/page/initial_setting/initial_setting_page.dart';
 import 'package:mallang_project_v1/page/main_page/call_setting_page_ml03.dart';
 import 'package:mallang_project_v1/page/main_page/mypage_ml04.dart';
-import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page_indicator.dart';
 import 'package:mallang_project_v1/state/app_state.dart';
-import 'package:supabase/supabase.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase/supabase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,12 +45,11 @@ void main() async {
     }*/
 
     //====================================================
-
   } catch (e) {
     print("Error while checking user existence: $e");
   }
 
-  runApp(MyApp(initialRoute: userExist ? '/main_board' : '/initial_page'));
+  runApp(MyApp(initialRoute: '/dev_page'));
 }
 
 class MyApp extends StatelessWidget {
@@ -71,7 +71,6 @@ class MyApp extends StatelessWidget {
         routes: {
           '/initial_page': (context) => InitialPage(),
           '/initial_setting': (context) => InitialSettingPage(),
-          //'/initial_setting_origin': (context) => SettingPage(),
           '/call_setting_page_ml03': (context) => CallSettingsPage(),
           '/page_indicator': (context) => PageIndicator(),
           '/caller_screen': (context) => CallerPage(),
@@ -79,6 +78,7 @@ class MyApp extends StatelessWidget {
           '/main_board': (context) => Board2Page(),
           '/board1_page': (context) => Board1Page(),
           '/mypage_ml04': (context) => MyPage(),
+          '/dev_page': (context) => DevPage(), // 오픈 시에는 삭제 필요
         },
       ),
     );
@@ -89,6 +89,7 @@ class MyHomePage extends StatelessWidget {
   final SupabaseClient supabase;
 
   const MyHomePage({Key? key, required this.supabase}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
