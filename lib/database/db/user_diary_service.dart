@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:mallang_project_v1/database/model/diary_setting.dart';
+
 import 'package:mallang_project_v1/database/model/user_diary.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -7,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 class UserDiaryService {
   static final UserDiaryService _userDiaryService =
       UserDiaryService._internal();
+
   UserDiaryService._internal() {
     // init values;
 
@@ -29,7 +30,7 @@ class UserDiaryService {
 
   initDB() async {
     String path = join(await getDatabasesPath(), 'UserDiary.db');
-    return await openDatabase(path, version: 1, onCreate: (db, version) async {
+    return await openDatabase(path, version: 2, onCreate: (db, version) async {
       await db.execute('''
             CREATE TABLE user_diary(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,11 +38,17 @@ class UserDiaryService {
               time TEXT NOT NULL,
               title TEXT NOT NULL,
               context TEXT,
-              pictureList BLOB,
-              isChecked BOOLEAN NOT NULL DEFAULT 0
+              isChecked INTEGER NOT NULL DEFAULT 0
             )
           ''');
-    }, onUpgrade: (db, oldVersion, newVersion) {});
+    }, onUpgrade: (db, oldVersion, newVersion) async {
+      if (oldVersion < 2) {
+        await db
+            .execute('ALTER TABLE user_diary ADD COLUMN title TEXT NOT NULL');
+        await db.execute(
+            'ALTER TABLE user_diary ADD COLUMN isChecked INTEGER NOT NULL DEFAULT 0');
+      }
+    });
   }
 
   // DB 전체 들고 오기
@@ -59,7 +66,6 @@ class UserDiaryService {
           time: maps[index]["time"],
           title: maps[index]["title"],
           context: maps[index]["context"],
-          pictureList: maps[index]["pictureList"],
           isChecked: maps[index]["isChecked"],
         );
       },
@@ -84,7 +90,6 @@ class UserDiaryService {
           title: maps[index]["title"],
           context: maps[index]["context"],
           isChecked: maps[index]["isChecked"],
-          pictureList: maps[index]["pictureList"],
         );
       },
     );
@@ -107,7 +112,6 @@ class UserDiaryService {
           time: maps[index]["time"],
           title: maps[index]["title"],
           context: maps[index]["context"],
-          pictureList: maps[index]["pictureList"],
           isChecked: maps[index]["isChecked"],
         );
       },

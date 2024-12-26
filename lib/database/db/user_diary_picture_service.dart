@@ -1,3 +1,4 @@
+import 'package:mallang_project_v1/database/model/user_diary_picture.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -17,10 +18,30 @@ class UserDiaryPictureService {
           CREATE TABLE user_diary_picture(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             userDiaryId INTEGER,
-            picturePath TEXT NOT NULL,
+            picture BLOB NOT NULL,
             FOREIGN KEY(userDiaryId) REFERENCES user_diary(id) ON DELETE CASCADE
           )
         ''');
     }, onUpgrade: (db, oldVersion, newVersion) {});
+  }
+
+  Future<void> insert(UserDiaryPicture userDiaryPicture) async {
+    final db = await database;
+    await db.insert(table_name, userDiaryPicture.toJson());
+  }
+
+  // getAll
+  Future<List<UserDiaryPicture>> getAll() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(table_name);
+    if (maps.isEmpty) return [];
+
+    List<UserDiaryPicture> list = List.generate(
+      maps.length,
+      (i) {
+        return UserDiaryPicture.fromJson(maps[i]);
+      },
+    );
+    return list;
   }
 }

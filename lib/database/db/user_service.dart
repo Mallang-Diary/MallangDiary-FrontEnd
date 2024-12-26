@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:mallang_project_v1/database/model/user.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -7,7 +8,6 @@ import 'package:sqflite/sqflite.dart';
 // 나중에 diary_setting_service 에 함께 넣어도 될 것 같음
 
 class UserService {
-
   late Database _database;
   final table_name = 'user';
 
@@ -18,25 +18,21 @@ class UserService {
 
   initDB() async {
     String path = join(await getDatabasesPath(), 'User.db');
-    return await openDatabase(
-        path,
-        version: 1,
-        onCreate: (db, version) async {
-          await db.execute('''
+    return await openDatabase(path, version: 1, onCreate: (db, version) async {
+      await db.execute('''
             CREATE TABLE user(
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               nickname TEXT NOT NULL
             )
           ''');
-        },
-        onUpgrade: (db, oldVersion, newVersion){}
-    );
+    }, onUpgrade: (db, oldVersion, newVersion) {});
   }
 
   // 단건 조회
   Future<User?> getUser() async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db!.query(table_name, limit: 1);
+    final List<Map<String, dynamic>> maps =
+        await db!.query(table_name, limit: 1);
 
     if (maps.isEmpty) return null;
 
@@ -48,7 +44,7 @@ class UserService {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db!.query(table_name);
 
-    if ( maps.isEmpty ) return [];
+    if (maps.isEmpty) return [];
 
     List<User> list = maps.map((userMap) => User.fromJson(userMap)).toList();
     return list;
@@ -58,7 +54,6 @@ class UserService {
   Future<void> clearUsers() async {
     final db = await database;
     await db?.delete(table_name);
-
   }
 
   // 쿼리 날려서 들고오기
@@ -69,7 +64,7 @@ class UserService {
 
     List<User> list = List.generate(
       maps.length,
-          (index) {
+      (index) {
         return User(
           id: maps[index]["id"],
           nickname: maps[index]["nickname"],
@@ -82,7 +77,7 @@ class UserService {
 
   Future<void> insert(User user) async {
     final db = await database;
-    user.id = await db?.insert(table_name,user.toJson());
+    user.id = await db?.insert(table_name, user.toJson());
   }
 
   // DB Insert ( 삽입 )
@@ -109,7 +104,7 @@ class UserService {
   // 사용자 존재 여부 확인
   Future<bool> userExists() async {
     final db = await database;
-    final result = await db.query(table_name, limit:1);
+    final result = await db.query(table_name, limit: 1);
 
     return result.isNotEmpty;
   }
