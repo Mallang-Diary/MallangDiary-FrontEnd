@@ -42,6 +42,26 @@ class UserDiaryPictureService {
         return UserDiaryPicture.fromJson(maps[i]);
       },
     );
+
+    return list;
+  }
+
+  Future<List<UserDiaryPicture>> getByUserDiaryIds(
+      List<int> userDiaryIds) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      table_name,
+      where: 'userDiaryId IN (${userDiaryIds.join(",")})',
+    );
+    if (maps.isEmpty) return [];
+
+    List<UserDiaryPicture> list = List.generate(
+      maps.length,
+      (i) {
+        return UserDiaryPicture.fromJson(maps[i]);
+      },
+    );
+
     return list;
   }
 }
