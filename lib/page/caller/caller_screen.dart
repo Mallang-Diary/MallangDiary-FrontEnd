@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
+import 'package:mallang_project_v1/database/db/diarySetting_db_service.dart';
 import 'package:mallang_project_v1/database/model/diary_setting.dart';
 
 class CallerPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class CallerPage extends StatefulWidget {
 }
 
 class _CallerPage extends State<CallerPage> {
-  late DiarySettingService _diarySettingService;
+  late DiarySettingDBService _diarySettingService;
   late Timer _timer;
 
 
@@ -49,7 +49,7 @@ class _CallerPage extends State<CallerPage> {
     super.initState();
     audioPlayer = AudioPlayer();
 
-    _diarySettingService = DiarySettingService();
+    _diarySettingService = DiarySettingDBService();
     _startAlarmCheck();
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -87,7 +87,7 @@ class _CallerPage extends State<CallerPage> {
   }
 
   Future<List<DiarySetting>> _getAlarmSettings() async {
-    return await _diarySettingService.getDB();
+    return await _diarySettingService.getAllUsersDiarySetting();
   }
 
   @override

@@ -50,9 +50,9 @@ class _NickNamePageState extends State<NickNamePage> {
               controller: _nicknameController,
               decoration: InputDecoration(
                 labelText: '닉네임',
-                hintText: '2~10자',
+                hintText: '2~16자',
               ),
-              maxLength: 10,
+              maxLength: 16,
             ),
           ],
         ),

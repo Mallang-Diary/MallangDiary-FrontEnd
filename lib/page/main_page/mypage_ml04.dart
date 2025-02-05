@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mallang_project_v1/database/db/user_diary_service.dart';
-import 'package:mallang_project_v1/database/db/user_service.dart';
+import 'package:mallang_project_v1/database/db/diary_db_service.dart';
+import 'package:mallang_project_v1/database/db/user_db_service.dart';
 import 'package:mallang_project_v1/database/model/user.dart';
 
 class MyPage extends StatelessWidget {
-  final UserService _userService = UserService();
-  final UserDiaryService _userDiaryService = UserDiaryService();
+  final UserDBService _userService = UserDBService();
+  final DiaryDBService _userDiaryService = DiaryDBService();
 
   @override
   Widget build(BuildContext context) {

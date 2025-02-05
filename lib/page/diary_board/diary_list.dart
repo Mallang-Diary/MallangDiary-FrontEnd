@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../database/db/user_diary_picture_service.dart';
-import '../../database/db/user_diary_service.dart';
+import '../../database/db/diaryPicture_db_service.dart';
+import '../../database/db/diary_db_service.dart';
 import '../../state/app_state.dart';
 import 'diary_list_item.dart';
 
 class DiaryList extends StatelessWidget {
-  final _userDiaryService = UserDiaryService();
-  final _userDiaryPictureService = UserDiaryPictureService();
+  final _userDiaryService = DiaryDBService();
+  final _userDiaryPictureService = DiaryPictureDBService();
 
   DiaryList({super.key});
 

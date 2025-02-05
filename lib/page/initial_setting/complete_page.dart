@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
-import 'package:mallang_project_v1/database/db/user_service.dart';
+import 'package:mallang_project_v1/database/db/diarySetting_db_service.dart';
+import 'package:mallang_project_v1/database/db/user_db_service.dart';
 
 class CompletePage extends StatefulWidget {
 
@@ -13,8 +13,8 @@ class CompletePage extends StatefulWidget {
 }
 
 class _CompletePage extends State<CompletePage> {
-  final UserService _userService = UserService();
-  final DiarySettingService _diarySettingService = DiarySettingService();
+  final UserDBService _userService = UserDBService();
+  final DiarySettingDBService _diarySettingService = DiarySettingDBService();
 
   @override
   void initState() {

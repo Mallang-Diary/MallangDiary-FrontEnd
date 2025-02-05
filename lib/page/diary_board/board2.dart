@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
+import 'package:mallang_project_v1/database/db/diarySetting_db_service.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_list.dart';
 import 'package:mallang_project_v1/page/diary_board/diary_record_card.dart';
 
@@ -11,7 +11,7 @@ class Board2Page extends StatefulWidget {
 }
 
 class _Board2PageState extends State<Board2Page> {
-  final DiarySettingService _diarySettingService = DiarySettingService();
+  final DiarySettingDBService _diarySettingService = DiarySettingDBService();
   String currentSettingText = "Loading...";
 
   @override
@@ -22,7 +22,7 @@ class _Board2PageState extends State<Board2Page> {
 
   Future<void> _loadDiarySetting() async {
     try {
-      final settings = await _diarySettingService.getDB();
+      final settings = await _diarySettingService.getAllUsersDiarySetting();
       if (settings.isNotEmpty) {
         setState(() {
           currentSettingText =

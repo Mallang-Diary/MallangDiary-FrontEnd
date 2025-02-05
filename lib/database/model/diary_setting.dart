@@ -15,9 +15,11 @@ class DiarySetting {
     this.createdAt,
   });
 
-  /// JSON 데이터를 DiarySetting 인스턴스로 변환
   factory DiarySetting.fromJson(Map<String, dynamic> json) {
-    print("json['createdAt']: ${json['createdAt']}"); // 디버깅을 위한 출력
+
+    // 로그 출력
+    print("[DiarySetting] 출력 : ${json['createdAt']}");
+
     return DiarySetting(
       id: json['id'] as int?,
       userId: json['userId'] as int,
@@ -28,11 +30,6 @@ class DiarySetting {
     );
   }
 
-  // [ 사용법 ]
-  // DiarySetting diarySetting = DiarySetting.fromJson(jsonResponse);
-  // print(diarySetting.dayOfWeek); // MON
-
-  /// DiarySetting 인스턴스를 JSON 형태로 변환
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -44,8 +41,3 @@ class DiarySetting {
     };
   }
 }
-
-// [ 사용법 ]
-// final jsonData = diarySetting.toJson();
-// print(jsonData);
-// database 조회 :  https://velog.io/@developerelen/Flutter-sqflite-database-file-%EC%B0%BE%EA%B8%B0

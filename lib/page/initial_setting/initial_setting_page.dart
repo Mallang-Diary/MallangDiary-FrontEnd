@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mallang_project_v1/database/db/diary_setting_service.dart';
-import 'package:mallang_project_v1/database/db/user_service.dart';
+import 'package:mallang_project_v1/database/db/diarySetting_db_service.dart';
+import 'package:mallang_project_v1/database/db/user_db_service.dart';
 import 'package:mallang_project_v1/database/model/diary_setting.dart';
 import 'package:mallang_project_v1/database/model/user.dart';
 import 'package:mallang_project_v1/page/initial_setting/callschedule_page.dart';
@@ -24,8 +24,8 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
   String selectedDays = '';
   String selectedTime = '';
 
-  final UserService _userService = UserService();
-  final DiarySettingService _diarySettingService = DiarySettingService();
+  final UserDBService _userService = UserDBService();
+  final DiarySettingDBService _diarySettingService = DiarySettingDBService();
 
   @override
   void initState() {

@@ -2,10 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../../database/db/user_diary_picture_service.dart';
-import '../../database/db/user_diary_service.dart';
-import '../../database/model/user_diary.dart';
-import '../../database/model/user_diary_picture.dart';
+import '../../database/db/diaryPicture_db_service.dart';
+import '../../database/db/diary_db_service.dart';
+import '../../database/model/diary.dart';
+import '../../database/model/diary_picture.dart';
 import '../../util/image_util.dart';
 
 class DevUserDiaryFormPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _DevUserDiaryFormPageState extends State<DevUserDiaryFormPage> {
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      final userDiary = UserDiary(
+      final userDiary = Diary(
         date: _dateController.text,
         time: _timeController.text,
         title: _titleController.text,
@@ -50,13 +50,13 @@ class _DevUserDiaryFormPageState extends State<DevUserDiaryFormPage> {
       print('>>> Saving User Diary: $userDiary');
 
       // Save the diary and picture
-      await UserDiaryService().insert(userDiary);
+      await DiaryDBService().insert(userDiary);
       if (_selectedImage != null) {
-        final userDiaryPicture = UserDiaryPicture(
+        final userDiaryPicture = DiaryPictures(
             userDiaryId: 1, // Replace with actual ID after inserting the diary
             picture: _selectedImage!);
         print('>>> Saving User Diary Picture');
-        await UserDiaryPictureService().insert(userDiaryPicture);
+        await DiaryPictureDBService().insert(userDiaryPicture);
       }
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

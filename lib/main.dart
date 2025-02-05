@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mallang_project_v1/database/db/user_service.dart';
+import 'package:mallang_project_v1/database/db/user_db_service.dart';
 import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page/caller/calling_page.dart';
-import 'package:mallang_project_v1/page/dev/dev_page.dart';
+import 'package:mallang_project_v1/page/dev/db_test_page.dart';
 import 'package:mallang_project_v1/page/diary_board/board1.dart';
 import 'package:mallang_project_v1/page/diary_board/board2.dart';
 import 'package:mallang_project_v1/page/initial_page/inital_page.dart';
@@ -11,23 +11,39 @@ import 'package:mallang_project_v1/page/main_page/call_setting_page_ml03.dart';
 import 'package:mallang_project_v1/page/main_page/mypage_ml04.dart';
 import 'package:mallang_project_v1/page_indicator.dart';
 import 'package:mallang_project_v1/state/app_state.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:supabase/supabase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // 한번 더 DB 모두 삭제
+  var databasesPath = await getDatabasesPath();
+  // 삭제하려는 모든 데이터베이스의 이름을 리스트로 관리
+  List<String> databaseNames = ['diarySetting.db', 'user.db'];
+
+  await deleteDatabase(databasesPath);
+
+  // 각 데이터베이스 삭제
+  for (var dbName in databaseNames) {
+    String path = join(databasesPath, dbName);
+    await deleteDatabase(path);
+    print('Deleted database: $path');
+  }
+
   // 사용자 가입 여부 확인
   bool userExist = false;
   try {
-    userExist = await UserService().userExists();
+    userExist = await UserDBService().userExists();
     print("userExist 상태 확인: $userExist");
 
     // 임시 방편 코드
     //====================================================
-    /*if ( userExist ) {
+    if ( userExist ) {
       // DB 데이터 조회
-      final users = await UserService().getAllUsers();
+      final users = await UserDBService().getAllUsers();
       if ( users.isNotEmpty ) {
         print("현재 DB 사용자 데이터 출력 : ");
         for ( var user in users ){
@@ -37,19 +53,24 @@ void main() async {
         print("DB에 저장된 사용자 데이터가 없습니다.");
       }
 
-      // DB 삭제
-      await UserService().clearUsers();
+      // DB 삭제 ( 수동 삭제 )
+      await UserDBService().deleteAllUsers();
+
+
+
+      
+
       print("DB 내 모든 사용자 데이터를 삭제하였습니다.");
     } else {
       print("DB에 사용자 데이터가 존재하지 않습니다.");
-    }*/
+    }
 
     //====================================================
   } catch (e) {
     print("Error while checking user existence: $e");
   }
 
-  runApp(MyApp(initialRoute: '/dev_page'));
+  runApp(MyApp(initialRoute: userExist?'/initial_page':'/initial_page'));
 }
 
 class MyApp extends StatelessWidget {
@@ -78,7 +99,7 @@ class MyApp extends StatelessWidget {
           '/main_board': (context) => Board2Page(),
           '/board1_page': (context) => Board1Page(),
           '/mypage_ml04': (context) => MyPage(),
-          '/dev_page': (context) => DevPage(), // 오픈 시에는 삭제 필요
+          '/dev_page': (context) => DBTestPage(), // 오픈 시에는 삭제 필요
         },
       ),
     );
