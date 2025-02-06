@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/database/db/diarySetting_db_service.dart';
 import 'package:mallang_project_v1/database/db/user_db_service.dart';
 import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page/caller/calling_page.dart';
@@ -22,7 +23,7 @@ void main() async {
   // 한번 더 DB 모두 삭제
   var databasesPath = await getDatabasesPath();
   // 삭제하려는 모든 데이터베이스의 이름을 리스트로 관리
-  List<String> databaseNames = ['diarySetting.db', 'user.db'];
+  List<String> databaseNames = ['mallang_diary.db'];
 
   await deleteDatabase(databasesPath);
 
@@ -38,6 +39,7 @@ void main() async {
   try {
     userExist = await UserDBService().userExists();
     print("userExist 상태 확인: $userExist");
+
 
     // 임시 방편 코드
     //====================================================
@@ -55,10 +57,6 @@ void main() async {
 
       // DB 삭제 ( 수동 삭제 )
       await UserDBService().deleteAllUsers();
-
-
-
-      
 
       print("DB 내 모든 사용자 데이터를 삭제하였습니다.");
     } else {

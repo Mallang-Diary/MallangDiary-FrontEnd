@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:mallang_project_v1/database/db/database_helper.dart';
 import 'package:mallang_project_v1/database/model/diary_setting.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -7,34 +8,9 @@ import 'package:sqflite/sqflite.dart';
 
 class DiarySettingDBService {
 
-  late Database _database;
   final table_name = 'diary_setting';
 
-  Future<Database> get database async {
-    _database = await initDB();
-    return _database;
-  }
-
-  initDB() async {
-    String path = join(await getDatabasesPath(), 'mallang_diary.db');
-    return await openDatabase(
-        path,
-        version: 1,
-        onCreate: (db, version) async {
-          await db.execute('''
-            CREATE TABLE diary_setting(
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              userId INTEGER,
-              dayOfWeek TEXT,
-              alarmTime TEXT,
-              alarmSound TEXT,
-              createdAt TEXT NOT NULL
-            )
-          ''');
-        },
-        onUpgrade: (db, oldVersion, newVersion){}
-    );
-  }
+  Future<Database> get database async => await DatabaseHelper.instance.database;
 
   ///////////////////////////////////////////////////////////////////////////////////////
   //// DB API

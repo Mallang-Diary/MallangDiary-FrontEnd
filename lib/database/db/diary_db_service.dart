@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:mallang_project_v1/database/db/database_helper.dart';
 import 'package:mallang_project_v1/database/model/diary.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -8,37 +9,9 @@ import 'package:sqflite/sqflite.dart';
 
 class DiaryDBService {
 
-  late Database _database;
   final table_name = 'diary';
 
-  Future<Database> get database async {
-    _database = await initDB();
-    return _database;
-  }
-
-  initDB() async {
-    String path = join(await getDatabasesPath(), 'mallang_diary.db');
-    return await openDatabase(path, version: 2, onCreate: (db, version) async {
-      await db.execute('''
-            CREATE TABLE diary(
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              date TEXT NOT NULL,
-              time TEXT NOT NULL,
-              title TEXT NOT NULL,
-              context TEXT,
-              isChecked INTEGER NOT NULL DEFAULT 0,
-              FOREIGN KEY(userId) REFERENCES user(id) ON DELETE CASCADE
-            )
-          ''');
-    }, onUpgrade: (db, oldVersion, newVersion) async {
-      if (oldVersion < 2) {
-        await db
-            .execute('ALTER TABLE user_diary ADD COLUMN title TEXT NOT NULL');
-        await db.execute(
-            'ALTER TABLE user_diary ADD COLUMN isChecked INTEGER NOT NULL DEFAULT 0');
-      }
-    });
-  }
+  Future<Database> get database async => await DatabaseHelper.instance.database;
 
   ///////////////////////////////////////////////////////////////////////////////////////
   //// DB API

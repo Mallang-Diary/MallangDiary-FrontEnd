@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:mallang_project_v1/database/db/database_helper.dart';
 import 'package:mallang_project_v1/database/model/user.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -8,26 +9,9 @@ import 'package:sqflite/sqflite.dart';
 
 class UserDBService {
 
-  late Database _database;
   final table_name = 'user';
 
-  // database 가져오기
-  Future<Database> get database async {
-    _database = await initDB();
-    return _database;
-  }
-
-  initDB() async {
-    String path = join(await getDatabasesPath(), 'mallang_diary.db');
-    return await openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute('''
-            CREATE TABLE user(
-              id INTEGER PRIMARY KEY AUTOINCREMENT,
-              nickname TEXT NOT NULL
-            )
-          ''');
-    }, onUpgrade: (db, oldVersion, newVersion) {});
-  }
+  Future<Database> get database async => await DatabaseHelper.instance.database;
 
   ///////////////////////////////////////////////////////////////////////////////////////
   //// DB API
@@ -60,9 +44,12 @@ class UserDBService {
     return list;
   }
 
-  Future<void> insert(User user) async {
+  Future<int> insert(User user) async {
     final db = await database;
-    user.id = await db?.insert(table_name, user.toJson());
+    int id = await db.insert(table_name, user.toJson());
+
+    user.id = id;
+    return id;
   }
 
   Future<void> update(User user) async {

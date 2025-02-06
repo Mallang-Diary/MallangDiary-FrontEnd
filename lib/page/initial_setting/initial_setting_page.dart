@@ -173,16 +173,16 @@ class _InitialSettingPageState extends State<InitialSettingPage> {
 
     void _handleSaveData() async {
 
-      print("DB 저장 ${nickname} - ${selectedDays} - ${selectedTime}");
-
       try {
-        await _userService.insert(User(
-          id: 1,
+
+        int userId = await _userService.insert(User(
           nickname: nickname,
         ));  // User
 
+        print("DB 저장 : userId(${userId} - ${nickname} - ${selectedDays} - ${selectedTime}");
+
         await _diarySettingService.insert(DiarySetting(
-          userId: 1,
+          userId: userId,
           dayOfWeek: selectedDays,
           alarmTime: selectedTime,
           alarmSound: "default",

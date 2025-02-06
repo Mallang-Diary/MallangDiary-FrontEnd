@@ -14,7 +14,7 @@ class DiaryPictureDBService {
 
   initDB() async {
     String path = join(await getDatabasesPath(), 'mallang_diary.db');
-    return await openDatabase(path, version: 1, onCreate: (db, version) async {
+    return await openDatabase(path, version: 3, onCreate: (db, version) async {
       await db.execute('''
           CREATE TABLE diary_picture(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
