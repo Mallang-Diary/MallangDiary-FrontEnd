@@ -6,7 +6,7 @@ import 'package:mallang_project_v1/database/db/diaryPicture_db_service.dart';
 import 'package:mallang_project_v1/database/db/diary_db_service.dart';
 import 'package:mallang_project_v1/database/db/user_db_service.dart';
 import 'package:mallang_project_v1/page/dev/dev_user_diary_form_page.dart';
-import 'package:mallang_project_v1/page/diary_board/board2.dart';
+import 'package:mallang_project_v1/page/diary_board/main_board.dart';
 
 class DBTestPage extends StatelessWidget {
 
@@ -69,7 +69,7 @@ class DBTestPage extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Board2Page();
+                    return MainBoardPage();
                   }));
                 },
                 child: Text('Main Page')),

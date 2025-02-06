@@ -4,24 +4,23 @@ import 'package:mallang_project_v1/database/db/user_db_service.dart';
 import 'package:mallang_project_v1/page/caller/caller_screen.dart';
 import 'package:mallang_project_v1/page/caller/calling_page.dart';
 import 'package:mallang_project_v1/page/dev/db_test_page.dart';
-import 'package:mallang_project_v1/page/diary_board/board1.dart';
-import 'package:mallang_project_v1/page/diary_board/board2.dart';
+import 'package:mallang_project_v1/page/diary_board/main_board.dart';
 import 'package:mallang_project_v1/page/initial_page/inital_page.dart';
 import 'package:mallang_project_v1/page/initial_setting/initial_setting_page.dart';
 import 'package:mallang_project_v1/page/main_page/call_setting_page_ml03.dart';
 import 'package:mallang_project_v1/page/main_page/mypage_ml04.dart';
 import 'package:mallang_project_v1/page_indicator.dart';
 import 'package:mallang_project_v1/state/app_state.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:supabase/supabase.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // 임시 방편 코드
+  //====================================================
   // 한번 더 DB 모두 삭제
-  var databasesPath = await getDatabasesPath();
+  /*var databasesPath = await getDatabasesPath();
   // 삭제하려는 모든 데이터베이스의 이름을 리스트로 관리
   List<String> databaseNames = ['mallang_diary.db'];
 
@@ -32,7 +31,9 @@ void main() async {
     String path = join(databasesPath, dbName);
     await deleteDatabase(path);
     print('Deleted database: $path');
-  }
+  }*/
+  //====================================================
+
 
   // 사용자 가입 여부 확인
   bool userExist = false;
@@ -56,7 +57,7 @@ void main() async {
       }
 
       // DB 삭제 ( 수동 삭제 )
-      await UserDBService().deleteAllUsers();
+      //await UserDBService().deleteAllUsers();
 
       print("DB 내 모든 사용자 데이터를 삭제하였습니다.");
     } else {
@@ -68,7 +69,7 @@ void main() async {
     print("Error while checking user existence: $e");
   }
 
-  runApp(MyApp(initialRoute: userExist?'/initial_page':'/initial_page'));
+  runApp(MyApp(initialRoute: userExist?'/main_board':'/initial_page'));
 }
 
 class MyApp extends StatelessWidget {
@@ -94,8 +95,7 @@ class MyApp extends StatelessWidget {
           '/page_indicator': (context) => PageIndicator(),
           '/caller_screen': (context) => CallerPage(),
           '/calling_page': (context) => CallingPage(),
-          '/main_board': (context) => Board2Page(),
-          '/board1_page': (context) => Board1Page(),
+          '/main_board': (context) => MainBoardPage(),
           '/mypage_ml04': (context) => MyPage(),
           '/dev_page': (context) => DBTestPage(), // 오픈 시에는 삭제 필요
         },

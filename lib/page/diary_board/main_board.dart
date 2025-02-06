@@ -5,12 +5,12 @@ import 'package:mallang_project_v1/page/diary_board/diary_record_card.dart';
 
 import 'month_selector.dart';
 
-class Board2Page extends StatefulWidget {
+class MainBoardPage extends StatefulWidget {
   @override
-  _Board2PageState createState() => _Board2PageState();
+  _MainBoardPageState createState() => _MainBoardPageState();
 }
 
-class _Board2PageState extends State<Board2Page> {
+class _MainBoardPageState extends State<MainBoardPage> {
   final DiarySettingDBService _diarySettingService = DiarySettingDBService();
   String currentSettingText = "Loading...";
 
@@ -82,9 +82,16 @@ class _Board2PageState extends State<Board2Page> {
             ),
             SizedBox(height: 16),
             DiaryRecordCard(),
-            Divider(),
+            Divider(
+              thickness: 5,
+            ),
             SizedBox(height: 16),
-            MonthSelector(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                MonthSelector(),
+              ],
+            ),
             Expanded(child: DiaryList())
           ],
         ),

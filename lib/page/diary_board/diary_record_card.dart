@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../caller/recording_page.dart';
+
 class DiaryRecordCard extends StatelessWidget {
   const DiaryRecordCard({super.key});
 
@@ -44,7 +46,10 @@ class DiaryRecordCard extends StatelessWidget {
         Center(
           child: ElevatedButton.icon(
             onPressed: () {
-              print("일기 녹음하기");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RecordingPage()),
+              );
             },
             icon: Icon(
               Icons.mic,
@@ -64,12 +69,13 @@ class DiaryRecordCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 8),
+        SizedBox(height: 18),
         Text(
-          "일기는 지정된 시간이 지나면 자동으로 생성되며 재생성되지 않습니다.",
+          "일기는 자정이 지나면 자동으로 생성되며 재생성되지 않습니다.",
           style: TextStyle(fontSize: 14, color: Colors.grey),
           textAlign: TextAlign.center,
         ),
+        SizedBox(height: 12),
       ],
     );
   }

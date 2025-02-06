@@ -36,8 +36,7 @@ class DiarySettingDBService {
       },
     );
 
-    print("[GetAllDiarySetting] : {$maps[0][\"createdAt\"]");
-    print("Info ==> : {$list}");
+    print("[GetAllDiarySetting] : \n{$maps}");
 
     return list;
   }

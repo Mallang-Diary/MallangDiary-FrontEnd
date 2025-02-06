@@ -47,6 +47,8 @@ dependencies:
   permission_handler: ^11.3.1
   provider: ^6.1.2
   image_picker: ^1.1.2
+  grpc: ^3.0.0
+  protobuf: ^2.0.0
 
 dev_dependencies:
   flutter_test:
