@@ -74,7 +74,7 @@ class _RecordingPage extends State<RecordingPage> {
     }
   }
 
-  // Recording 을 Save() 하는 곳
+  // Recording 을 Save() 하는 곳 ========================================> 여기도 수정하기
   Future<void> _saveRecording() async {
     final directory = await getApplicationDocumentsDirectory(); // 앱의 문서 디렉토리 가져오기
     final savedPath = '${directory.path}/saved_recording.mp3';
@@ -82,6 +82,28 @@ class _RecordingPage extends State<RecordingPage> {
       print("녹음 파일 저장됨: $savedPath");
       // 녹음 저장 후 추가적인 작업이 필요할 경우 여기서 처리
     });
+  }
+
+  // 이어서 녹음하기
+  Future<void> _continueRecording() async {
+    if (_recordingPath.isNotEmpty) {
+      await _recorder.startRecorder(toFile: _recordingPath);
+      setState(() {
+        _isRecording = true;
+        _elapsedTime = 0;
+      });
+      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          _elapsedTime++;
+        });
+
+        if (_elapsedTime >= 300) {
+          _timer.cancel();
+          _stopRecording();
+          _showStopRecordingDialog();
+        }
+      });
+    }
   }
 
   Future<void> _stopRecording() async {
@@ -132,8 +154,13 @@ class _RecordingPage extends State<RecordingPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (_isRecording)
-              Text('녹음 중', style: TextStyle(fontSize: 18)),
+            _isRecording
+                ? Text('녹음 중', style: TextStyle(fontSize: 18))
+                : Icon(
+              Icons.mic,
+              size: 50,
+              color: Colors.grey,
+            ),
             SizedBox(height: 10),
             Text('$duration / 05:00', style: TextStyle(fontSize: 16, color: Colors.grey)),
             SizedBox(height: 20),
@@ -147,11 +174,15 @@ class _RecordingPage extends State<RecordingPage> {
                         _stopRecording();
                       }
                       else {
-                        _startRecording();
+                        if (_recordingPath.isNotEmpty) {
+                          _continueRecording();
+                        } else {
+                          _startRecording();
+                        }
                       }
                     });
                   },
-                  child: Text(_isRecording ? '중지' : '녹음 시작'), ///////////// 이 부분도 수정해야 할 것같음
+                  child: Text(_isRecording ? '중지' : '녹음 시작'),
                 ),
                 SizedBox(width: 20),
                 ElevatedButton(
