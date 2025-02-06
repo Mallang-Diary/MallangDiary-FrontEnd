@@ -45,7 +45,7 @@ class _RecordingPage extends State<RecordingPage> {
       final now = DateTime.now();
       final formattedDate = "${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}";
       final tempDir = await getTemporaryDirectory();
-      _recordingPath = '${tempDir.path}/recording_$formattedDate.mp3';
+      _recordingPath = '${tempDir.path}/recording_$formattedDate';
 
       await _recorder.startRecorder(toFile: _recordingPath);
 
@@ -53,8 +53,6 @@ class _RecordingPage extends State<RecordingPage> {
         _isRecording = true;
         _elapsedTime = 0;
       });
-
-      print("=========> 여기까지는 온거야?? ${_isRecording}");
 
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
@@ -129,6 +127,7 @@ class _RecordingPage extends State<RecordingPage> {
     final duration = '$minutes:${seconds.toString().padLeft(2, '0')}';
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
