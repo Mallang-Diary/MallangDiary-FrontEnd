@@ -136,7 +136,7 @@ class _RecordingPage extends State<RecordingPage> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  _saveRecording(); // 저장 =======>>> 저장이 잘 됐는지 확인해보고 싶음
+                  _saveRecording();
                 },
                 child: Text('저장'),
               ),
@@ -148,6 +148,23 @@ class _RecordingPage extends State<RecordingPage> {
               ),
             ],
           ),
+    );
+  }
+
+  void _showRecordingNotStartedDialog() {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+            title: Text('녹음을 먼저 시작해주세요'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // 다이얼로그 닫기
+                },
+                child: Text('확인'),
+              )
+            ]
+        )
     );
   }
 
@@ -186,8 +203,8 @@ class _RecordingPage extends State<RecordingPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // 녹음 시작/중지 버튼
-                ElevatedButton(
+                // 녹음 시작/중지 버튼 (ElevatedButton.icon 사용)
+                ElevatedButton.icon(
                   onPressed: () {
                     setState(() {
                       if (_isRecording) {
@@ -201,23 +218,46 @@ class _RecordingPage extends State<RecordingPage> {
                       }
                     });
                   },
-                  child: Text(
+                  label: Text(
                     _isRecording
                         ? '중지'
                         : (_isPaused ? '이어서 녹음하기' : '녹음 시작'),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[800],
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
                 SizedBox(width: 20),
-                // 저장 버튼
-                ElevatedButton(
+                // 저장 버튼 (ElevatedButton.icon 사용)
+                ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RecordingCompletePage()),
-                    );
+                    if (!_isRecording && !_isPaused) {
+                      // 녹음을 시작한 적이 없으면 알림으로 녹음을 먼저 시작하라고 안내
+                      _showRecordingNotStartedDialog();
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RecordingCompletePage()),
+                      );
+                    }
                   },
-                  child: Text('저장'),
+                  label: Text(
+                    '저장',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[800],
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
                 ),
               ],
             ),

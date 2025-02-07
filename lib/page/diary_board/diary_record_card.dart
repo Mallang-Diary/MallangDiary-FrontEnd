@@ -62,7 +62,7 @@ class DiaryRecordCard extends StatelessWidget {
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey[800],
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
