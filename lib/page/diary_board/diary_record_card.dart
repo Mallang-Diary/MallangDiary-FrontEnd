@@ -42,7 +42,6 @@ class DiaryRecordCard extends StatelessWidget {
             arcType: ArcType.HALF,
           ),
         ),
-        SizedBox(height: 16), // 여백 추가
         Center(
           child: ElevatedButton.icon(
             onPressed: () {

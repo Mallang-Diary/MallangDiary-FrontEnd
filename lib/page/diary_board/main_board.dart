@@ -50,7 +50,7 @@ class _MainBoardPageState extends State<MainBoardPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             // 뒤로가기 (for dev test page)
             if (Navigator.canPop(context))
               IconButton(
