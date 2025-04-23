@@ -37,16 +37,13 @@ class UserDiaryService {
               date TEXT NOT NULL,
               time TEXT NOT NULL,
               title TEXT NOT NULL,
-              context TEXT,
-              isChecked INTEGER NOT NULL DEFAULT 0
+              context TEXT
             )
           ''');
     }, onUpgrade: (db, oldVersion, newVersion) async {
       if (oldVersion < 2) {
         await db
             .execute('ALTER TABLE user_diary ADD COLUMN title TEXT NOT NULL');
-        await db.execute(
-            'ALTER TABLE user_diary ADD COLUMN isChecked INTEGER NOT NULL DEFAULT 0');
       }
     });
   }
@@ -66,7 +63,6 @@ class UserDiaryService {
           time: maps[index]["time"],
           title: maps[index]["title"],
           context: maps[index]["context"],
-          isChecked: maps[index]["isChecked"],
         );
       },
     );
@@ -89,7 +85,6 @@ class UserDiaryService {
           time: maps[index]["time"],
           title: maps[index]["title"],
           context: maps[index]["context"],
-          isChecked: maps[index]["isChecked"],
         );
       },
     );
@@ -99,8 +94,18 @@ class UserDiaryService {
 
   Future<List<UserDiary>> getAllByMonth(DateTime month) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db!.query(table_name,
-        where: "date LIKE ?", whereArgs: ["%${month.year}-${month.month}%"]);
+    final formattedMonth = month.month.toString().padLeft(2, '0');
+    final searchPattern = "%${month.year}-${formattedMonth}%";
+    print("Searching for pattern: $searchPattern");
+
+    final List<Map<String, dynamic>> maps = await db
+        .query(table_name, where: "date LIKE ?", whereArgs: [searchPattern]);
+
+    print("Found ${maps.length} entries for ${month.year}-${formattedMonth}");
+    if (maps.isNotEmpty) {
+      print("First entry date: ${maps[0]['date']}");
+    }
+
     if (maps.isEmpty) return [];
 
     List<UserDiary> list = List.generate(
@@ -112,7 +117,6 @@ class UserDiaryService {
           time: maps[index]["time"],
           title: maps[index]["title"],
           context: maps[index]["context"],
-          isChecked: maps[index]["isChecked"],
         );
       },
     );

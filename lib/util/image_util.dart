@@ -8,8 +8,8 @@ class ImageUtil {
     return bytes.buffer.asUint8List();
   }
 
-  static AssetImage uint8ListToAssetImage(Uint8List bytes) {
-    return AssetImage(bytes.toString());
+  static Image uint8ListToAssetImage(Uint8List bytes) {
+    return Image.memory(bytes, fit: BoxFit.cover);
   }
 
   static Future<Uint8List?> pickImage() async {

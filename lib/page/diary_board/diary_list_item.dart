@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 class DiaryListItem extends StatelessWidget {
   final DateTime date;
   final String title;
-  final bool isChecked;
   final String content;
-  final List<AssetImage> images;
+  final List<Image> images;
 
   const DiaryListItem({
     super.key,
     required this.date,
     required this.title,
-    required this.isChecked,
     required this.content,
     required this.images,
   });
@@ -44,13 +42,6 @@ class DiaryListItem extends StatelessWidget {
                 _getFormattedDate(date),
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              Icon(
-                isChecked
-                    ? Icons.check_box_sharp
-                    : Icons.radio_button_unchecked,
-                color: isChecked ? Colors.blue : Colors.grey,
-                size: 24,
-              ),
             ],
           ),
           SizedBox(height: 4),
@@ -80,10 +71,7 @@ class DiaryListItem extends StatelessWidget {
             itemBuilder: (context, index) {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image(
-                  image: images[index],
-                  fit: BoxFit.cover,
-                ),
+                child: images[index],
               );
             },
           ),

@@ -60,33 +60,33 @@ class _Board2PageState extends State<Board2Page> {
                     Navigator.pop(context);
                   },
                 ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[400]!),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ListTile(
-                  leading: Icon(Icons.phone),
-                  title: Text(
-                    currentSettingText,
-                    style: TextStyle(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.person_3_outlined),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/mypage_ml04');
-                    },
-                  ),
-                ),
-              ),
+              // Container(
+              //   width: MediaQuery.of(context).size.width,
+              //   decoration: BoxDecoration(
+              //     border: Border.all(color: Colors.grey[400]!),
+              //     borderRadius: BorderRadius.circular(8),
+              //   ),
+              //   child: ListTile(
+              //     leading: Icon(Icons.phone),
+              //     title: Text(
+              //       currentSettingText,
+              //       style: TextStyle(fontSize: 16),
+              //       overflow: TextOverflow.ellipsis,
+              //     ),
+              //     trailing: IconButton(
+              //       icon: Icon(Icons.person_3_outlined),
+              //       onPressed: () {
+              //         Navigator.pushNamed(context, '/mypage_ml04');
+              //       },
+              //     ),
+              //   ),
+              // ),
               SizedBox(height: 16),
               DiaryRecordCard(),
               Divider(),
               SizedBox(height: 16),
               MonthSelector(),
-              DiaryList()
+              DiaryList(),
             ],
           ),
         ),

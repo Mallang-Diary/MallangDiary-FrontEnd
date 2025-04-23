@@ -21,7 +21,6 @@ class _DevUserDiaryFormPageState extends State<DevUserDiaryFormPage> {
   final TextEditingController _timeController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contextController = TextEditingController();
-  bool _isChecked = false;
   Uint8List? _selectedImage;
 
   void _pickImage() async {
@@ -44,7 +43,6 @@ class _DevUserDiaryFormPageState extends State<DevUserDiaryFormPage> {
         time: _timeController.text,
         title: _titleController.text,
         context: _contextController.text,
-        isChecked: _isChecked ? 1 : 0,
       );
 
       print('>>> Saving User Diary: $userDiary');
@@ -53,8 +51,7 @@ class _DevUserDiaryFormPageState extends State<DevUserDiaryFormPage> {
       await UserDiaryService().insert(userDiary);
       if (_selectedImage != null) {
         final userDiaryPicture = UserDiaryPicture(
-            userDiaryId: 1, // Replace with actual ID after inserting the diary
-            picture: _selectedImage!);
+            userDiaryId: userDiary.id!, picture: _selectedImage!);
         print('>>> Saving User Diary Picture');
         await UserDiaryPictureService().insert(userDiaryPicture);
       }
@@ -137,15 +134,6 @@ class _DevUserDiaryFormPageState extends State<DevUserDiaryFormPage> {
                     return 'Please enter some context.';
                   }
                   return null;
-                },
-              ),
-              CheckboxListTile(
-                title: Text('Is Checked?'),
-                value: _isChecked,
-                onChanged: (value) {
-                  setState(() {
-                    _isChecked = value!;
-                  });
                 },
               ),
               SizedBox(height: 16),

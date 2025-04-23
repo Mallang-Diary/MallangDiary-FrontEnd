@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/page/dev/dev_user_diary_form_page.dart';
 import 'package:mallang_project_v1/page/diary_board/board2.dart';
+import 'package:mallang_project_v1/page/dev/dev_db_view_page.dart';
 
 class DevPage extends StatelessWidget {
   const DevPage({super.key});
@@ -15,6 +16,7 @@ class DevPage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
                 onPressed: () {
@@ -30,6 +32,14 @@ class DevPage extends StatelessWidget {
                 }));
               },
               child: Text('Create Dummy User Diary'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return DevDBViewPage();
+                }));
+              },
+              child: Text('View Database Contents'),
             ),
           ],
         ),

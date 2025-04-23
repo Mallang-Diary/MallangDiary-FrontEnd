@@ -6,7 +6,6 @@ class UserDiary {
   String time;
   String title;
   String context;
-  int isChecked;
 
   // 녹음 파일도 추가하기
 
@@ -15,8 +14,7 @@ class UserDiary {
       required this.date,
       required this.time,
       required this.title,
-      required this.context,
-      required this.isChecked});
+      required this.context});
 
   // 내일 녹음 파일을 local android 내부 파일에 저장되는지도 확인
   // ai api 연결도 필요할 듯
@@ -26,8 +24,7 @@ class UserDiary {
         date: json['date'] as String,
         time: json['time'] as String,
         title: json['title'] as String,
-        context: json['context'] as String,
-        isChecked: json['isChecked'] as int);
+        context: json['context'] as String);
   }
 
   Map<String, dynamic> toJson() {
@@ -36,8 +33,7 @@ class UserDiary {
       'date': date,
       'time': time,
       'title': title,
-      'context': context,
-      'isChecked': isChecked
+      'context': context
     };
   }
 }
