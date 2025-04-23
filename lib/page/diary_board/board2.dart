@@ -45,48 +45,50 @@ class _Board2PageState extends State<Board2Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            // 뒤로가기 (for dev test page)
-            if (Navigator.canPop(context))
-              IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            Container(
-              width: MediaQuery.of(context).size.width, // 화면 너비의 90%로 제한
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[400]!), // 회색 테두리
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: ListTile(
-                leading: Icon(Icons.phone),
-                title: Text(
-                  currentSettingText,
-                  style: TextStyle(fontSize: 16),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.person_3_outlined),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              // 뒤로가기 (for dev test page)
+              if (Navigator.canPop(context))
+                IconButton(
+                  icon: Icon(Icons.arrow_back),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/mypage_ml04');
+                    Navigator.pop(context);
                   },
                 ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey[400]!),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ListTile(
+                  leading: Icon(Icons.phone),
+                  title: Text(
+                    currentSettingText,
+                    style: TextStyle(fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(Icons.person_3_outlined),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/mypage_ml04');
+                    },
+                  ),
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            DiaryRecordCard(),
-            Divider(),
-            SizedBox(height: 16),
-            MonthSelector(),
-            Expanded(child: DiaryList())
-          ],
+              SizedBox(height: 16),
+              DiaryRecordCard(),
+              Divider(),
+              SizedBox(height: 16),
+              MonthSelector(),
+              DiaryList()
+            ],
+          ),
         ),
       ),
     );
