@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mallang_project_v1/database/model/diary.dart';
 import 'package:mallang_project_v1/util/image_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../database/db/diaryPicture_db_service.dart';
+import '../../database/db/diary_picture_db_service.dart';
 import '../../database/db/diary_db_service.dart';
 import '../../state/app_state.dart';
 import 'diary_list_item.dart';
@@ -30,7 +31,7 @@ class DiaryList extends StatelessWidget {
           return const Center(child: Text('해당 월의 일기가 없습니다.'));
         }
 
-        final List diaryList = diarySnapshot.data as List;
+        final List<Diary> diaryList = diarySnapshot.data as List<Diary>;
         // 각 일기의 id 목록 추출 (null이 아니라고 가정)
         final diaryIds = diaryList.map((diary) => diary.id!).toList();
 
@@ -54,9 +55,9 @@ class DiaryList extends StatelessWidget {
                 final diaryImages = pictureList
                     .where((picture) => picture.userDiaryId == diary.id)
                     .map((picture) =>
-                // 여기서 ImageUtil.uint8ListToAssetImage()는
-                // BLOB 데이터를 이미지 위젯으로 변환하는 함수입니다.
-                ImageUtil.uint8ListToAssetImage(picture.picture))
+                        // 여기서 ImageUtil.uint8ListToAssetImage()는
+                        // BLOB 데이터를 이미지 위젯으로 변환하는 함수입니다.
+                        ImageUtil.uint8ListToAssetImage(picture.picture))
                     .toList();
 
                 return DiaryListItem(

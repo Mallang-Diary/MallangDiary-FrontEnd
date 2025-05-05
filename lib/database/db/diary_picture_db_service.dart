@@ -38,7 +38,7 @@ class DiaryPictureDBService {
 
     List<DiaryPictures> list = List.generate(
       maps.length,
-          (i) {
+      (i) {
         return DiaryPictures.fromJson(maps[i]);
       },
     );
@@ -65,4 +65,21 @@ class DiaryPictureDBService {
     );
   }
 
+  Future<List<DiaryPictures>> getByUserDiaryIds(List<int> userDiaryIds) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      table_name,
+      where: 'userDiaryId IN (${userDiaryIds.join(",")})',
+    );
+    if (maps.isEmpty) return [];
+
+    List<DiaryPictures> list = List.generate(
+      maps.length,
+      (i) {
+        return DiaryPictures.fromJson(maps[i]);
+      },
+    );
+
+    return list;
+  }
 }

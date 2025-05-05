@@ -2,14 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:mallang_project_v1/database/db/diarySetting_db_service.dart';
-import 'package:mallang_project_v1/database/db/diaryPicture_db_service.dart';
+import 'package:mallang_project_v1/database/db/diary_picture_db_service.dart';
 import 'package:mallang_project_v1/database/db/diary_db_service.dart';
 import 'package:mallang_project_v1/database/db/user_db_service.dart';
 import 'package:mallang_project_v1/page/dev/dev_user_diary_form_page.dart';
 import 'package:mallang_project_v1/page/diary_board/main_board.dart';
 
 class DBTestPage extends StatelessWidget {
-
   DBTestPage({super.key});
 
   final TextEditingController _userIdController = TextEditingController();
@@ -92,8 +91,8 @@ class DBTestPage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             ElevatedButton(
-                onPressed: () => deleteUserDataById(context),
-                child: Text('입력한 ID 데이터 삭제'),
+              onPressed: () => deleteUserDataById(context),
+              child: Text('입력한 ID 데이터 삭제'),
             ),
           ],
         ),

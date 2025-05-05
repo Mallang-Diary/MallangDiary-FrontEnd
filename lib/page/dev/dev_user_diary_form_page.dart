@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import '../../database/db/diaryPicture_db_service.dart';
+import '../../database/db/diary_picture_db_service.dart';
 import '../../database/db/diary_db_service.dart';
 import '../../database/model/diary.dart';
 import '../../database/model/diary_picture.dart';
